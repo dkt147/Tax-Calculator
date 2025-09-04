@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Custom Tax Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+      <div class="splash-content">
+        <h1>Loading...</h1>
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <div class="container" id="main-content">
+      <!-- Social Icons -->
+      <div class="social-icons mb-3">
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-facebook"></i>
+        <i class="fab fa-linkedin"></i>
+        <i class="fas fa-paper-plane"></i>
+      </div>
+
+      <h2>Select a Profile or Create a Scenario</h2>
+
+      <!-- Profiles -->
+      <div class="profiles">
+        <div class="card create" id="createCard">
+          <img
+            src="https://img.icons8.com/color/96/add.png"
+            alt="Create Scenario"
+          />
+          <p><strong>Create a Custom Scenario</strong></p>
+        </div>
+        <div class="card">
+          <img
+            src="https://img.icons8.com/color/96/user-male.png"
+            alt="James"
+          />
+          <p><strong>James</strong><br />Single, No Kids<br />$30,000</p>
+        </div>
+        <div class="card">
+          <img
+            src="https://img.icons8.com/color/96/businessman.png"
+            alt="Jason"
+          />
+          <p><strong>Jason</strong><br />Single, 2 Kids<br />$52,000</p>
+        </div>
+        <div class="card">
+          <img
+            src="https://img.icons8.com/color/96/user-female.png"
+            alt="Amber"
+          />
+          <p><strong>Amber</strong><br />Single, No Kids<br />$75,000</p>
+        </div>
+        <div class="card">
+          <img
+            src="https://img.icons8.com/color/96/family.png"
+            alt="Kavya & Nick"
+          />
+          <p><strong>Kavya & Nick</strong><br />Married, 2 Kids<br />$85,000</p>
+        </div>
+      </div>
+
+      <!-- Custom Form -->
+      <div id="custom-form" class="form hidden mt-4">
+        <h3>Choose a Filing Status?</h3>
+
+        <div class="deduction-options d-flex gap-3 my-3">
+          <button id="single-status" class="btn btn-success" style="width: 50%">
+            Single Filer
+          </button>
+          <button
+            id="married-status"
+            class="btn btn-outline-warning"
+            style="width: 50%"
+          >
+            Married Filing Jointly
+          </button>
+        </div>
+
+        <!-- Fields for Single -->
+        <div id="singleFields" class="row g-3">
+          <div class="col-md-6">
+            <label>Annual Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="personalIncome"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Pay Periods</label>
+            <input
+              type="number"
+              class="form-control"
+              id="payPeriods"
+              value="26"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Current Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="currentWithholding"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Additional Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="additionalWithholding"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Dependents</label>
+            <input
+              type="number"
+              class="form-control"
+              id="dependents"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Other Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="otherIncome"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Deductions</label>
+            <input
+              type="number"
+              class="form-control"
+              id="deductions"
+              value="0"
+            />
+          </div>
+
+          <!-- Checkpoint for single -->
+          <div class="col-md-12">
+            <div class="form-check mt-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="checkpointSingle"
+              />
+              <label class="form-check-label" for="checkpointSingle">
+                Confirm all data entered is accurate
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fields for Married -->
+        <div id="marriedFields" class="row g-3 hidden">
+          <div class="col-md-6">
+            <label>Annual Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="personalIncomeMarried"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Spouse Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="spouseIncome"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Pay Periods</label>
+            <input
+              type="number"
+              class="form-control"
+              id="payPeriodsMarried"
+              value="26"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Current Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="currentWithholdingMarried"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Additional Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="additionalWithholdingMarried"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Dependents</label>
+            <input
+              type="number"
+              class="form-control"
+              id="dependentsMarried"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Other Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="otherIncomeMarried"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Deductions</label>
+            <input
+              type="number"
+              class="form-control"
+              id="deductionsMarried"
+              value="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Both Work?</label>
+            <input type="checkbox" id="filingJointlyBothWork" />
+          </div>
+
+          <!-- Checkpoint for married -->
+          <div class="col-md-12">
+            <div class="form-check mt-2">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="checkpointMarried"
+              />
+              <label class="form-check-label" for="checkpointMarried">
+                Confirm all data entered is accurate
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deduction Buttons -->
+        <!-- <div class="deduction-options d-flex gap-3 my-3">
+          <button class="btn btn-success flex-fill" id="standard">
+            Standard Deduction
+          </button>
+          <button class="btn btn-outline-warning flex-fill" id="itemized">
+            Itemize Deductions
+          </button>
+        </div> -->
+
+        <!-- Itemized Deductions -->
+        <!-- <div id="itemizedSection" class="hidden">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label>Medical Expenses</label
+              ><input
+                type="number"
+                class="form-control"
+                id="medicalExpenses"
+                value="0"
+              />
+            </div>
+            <div class="col-md-6">
+              <label>State and Local Property Taxes</label
+              ><input
+                type="number"
+                class="form-control"
+                id="propertyTaxes"
+                value="0"
+              />
+            </div>
+            <div class="col-md-6">
+              <label>Mortgage Interest</label
+              ><input
+                type="number"
+                class="form-control"
+                id="mortgageInterest"
+                value="0"
+              />
+            </div>
+            <div class="col-md-6">
+              <label>State and Local Income Taxes</label
+              ><input
+                type="number"
+                class="form-control"
+                id="incomeTaxes"
+                value="0"
+              />
+            </div>
+            <div class="col-md-6">
+              <label>Charitable Contributions</label
+              ><input
+                type="number"
+                class="form-control"
+                id="charity"
+                value="0"
+              />
+            </div>
+            <div class="col-md-6">
+              <label>Other Itemized Deductions</label
+              ><input
+                type="number"
+                class="form-control"
+                id="otherDeductions"
+                value="0"
+              />
+            </div>
+          </div>
+        </div> -->
+
+        <div class="text-center mt-3">
+          <button id="calculate" class="btn btn-warning px-4 py-2">
+            CALCULATE
+          </button>
+        </div>
+
+        <!-- Result -->
+        <div id="result" class="result hidden mt-5">
+          <h3 class="text-center mb-4">2026 Tax Analysis</h3>
+
+          <div class="row text-center">
+            <div class="col-md-4">
+              <div class="p-3 border bg-primary">
+                <h6>Annual Tax Liability</h6>
+                <p id="annualTaxLiability" class="fs-4 fw-bold">$0.00</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 border bg-primary text-white">
+                <h6>Current Annual Withholding</h6>
+                <p id="currentAnnualWithholding" class="fs-4 fw-bold">$0.00</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 border bg-danger text-white">
+                <h6>Difference</h6>
+                <p id="difference" class="fs-4 fw-bold">+$0.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row text-center mt-4">
+            <div class="col-md-4">
+              <div class="border p-3">
+                <h6>Recommended Per Period</h6>
+                <p id="recommendedPerPeriod" class="fs-5 fw-bold">$0.00</p>
+                <small id="payPeriodLabel">(Bi-weekly)</small>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="border p-3">
+                <h6>Adjustment Needed</h6>
+                <p id="adjustment" class="fs-5 fw-bold text-danger">$0.00</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="border p-3">
+                <h6>Severity</h6>
+                <p
+                  id="severityLevel"
+                  class="fs-5 fw-bold text-uppercase text-danger"
+                >
+                  CRITICAL
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row text-center mt-4">
+            <div class="col-md-4">
+              <div class="border p-3">
+                <h6>Taxable Income</h6>
+                <p id="taxableIncome" class="fs-5 fw-bold">$0.00</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="border p-3">
+                <h6>Effective Tax Rate</h6>
+                <p id="effectiveTaxRate" class="fs-5 fw-bold">0.00%</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="border p-3">
+                <h6>Marginal Tax Rate</h6>
+                <p id="marginalTaxRate" class="fs-5 fw-bold">0.00%</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row text-center mt-4">
+            <div class="col-md-6">
+              <div class="border p-3">
+                <h6>Gross Income</h6>
+                <p id="grossIncome" class="fs-5 fw-bold">$0.00</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="border p-3">
+                <h6>Total Deductions</h6>
+                <p id="totalDeductions" class="fs-5 fw-bold">$0.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row text-center mt-4">
+            <div class="col-md-6">
+              <div class="border p-3">
+                <h6>Federal Tax Before Credits</h6>
+                <p id="federalTaxBeforeCredits" class="fs-5 fw-bold">$0.00</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="border p-3">
+                <h6>Child Tax Credit Applied</h6>
+                <p id="childTaxCreditApplied" class="fs-5 fw-bold">$0.00</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-md-12">
+              <div
+                class="alert alert-danger fw-bold text-center"
+                id="recommendation"
+              >
+                Recommendation text will appear here.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
