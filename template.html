@@ -122,6 +122,7 @@
           <button id="Married-Filing-Seprately" class="btn btn-success" style="width: 50%">
             Married Filing Seprately
           </button>
+          
           <button
             id="Head-of-house-hold"
             class="btn btn-outline-warning"
@@ -133,30 +134,14 @@
 
               <div class="deduction-options d-flex gap-3 my-3">
           <button id="Qualifying-Widower" class="btn btn-success" style="width: 100%">
-           
-Qualifying Widow(er)
+             Qualifying Widow(er)
           </button>
+         </div>
+
+
          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          
-        </div>
         <!-- Fields for Single -->
-        <div id="singleFields" class="row g-3">
+        <div id="singleFields" class="row g-3 hidden">
           <div class="col-md-6">
             <label>Annual Income</label>
             <input
@@ -328,8 +313,378 @@ Qualifying Widow(er)
               </label>
             </div>
           </div>
+
         </div>
+
+        <!-- Fields for HouseHoldFields -->
+
+        <div id="HeadofhouseholdFields" class="row g-3 hidden">
+          <div class="col-md-6">
+            <label>Annual Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="personalIncome"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Pay Periods</label>
+            <input
+              type="number"
+              class="form-control"
+              id="payPeriods"
+              placeholder="26"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Current Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="currentWithholding"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Additional Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="additionalWithholding"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Dependents</label>
+            <input
+              type="number"
+              class="form-control"
+              id="dependents"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Other Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="otherIncome"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Deductions</label>
+            <input
+              type="number"
+              class="form-control"
+              id="deductions"
+              placeholder="0"
+            />
+          </div>
+<div class="col-md-6">
+            <label>Filing_Jointly_Both_Work</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Filing_Jointly_Both_Work"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Spouse_income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Spouse_income"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Income_Type</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Income_Type"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Income_Period</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Income_Period"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Job_Incomes</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Job_Incomes"
+              placeholder="0"
+            />
+          </div>
+        </div>
+          
+ <!-- Qualifying Widower Fields -->
+<div id="QualifyingWidowerFields" class="row g-3 hidden">
+  
+          <div class="col-md-6">
+            <label>Annual Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="personalIncome"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Pay Periods</label>
+            <input
+              type="number"
+              class="form-control"
+              id="payPeriods"
+              placeholder="26"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Current Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="currentWithholding"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Additional Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="additionalWithholding"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Dependents</label>
+            <input
+              type="number"
+              class="form-control"
+              id="dependents"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Other Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="otherIncome"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Deductions</label>
+            <input
+              type="number"
+              class="form-control"
+              id="deductions"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Filing_Jointly_Both_Work</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Filing_Jointly_Both_Work"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Spouse_income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Spouse_income"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Income_Type</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Income_Type"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Income_Period</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Income_Period"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Job_Incomes</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Job_Incomes"
+              placeholder="0"
+            />
+          </div>
+
+        </div>
+          
+
+<!-- Fields for MarriedFilingSepratelyFields -->
+
+        <div id="MarriedFilingSepratelyFields" class="row g-3 hidden">
+          <div class="col-md-6">
+            <label>Annual_income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="personalIncome"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Pay Periods</label>
+            <input
+              type="number"
+              class="form-control"
+              id="payPeriods"
+              placeholder="26"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Current Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="currentWithholding"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Additional Withholding</label>
+            <input
+              type="number"
+              class="form-control"
+              id="additionalWithholding"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Dependents</label>
+            <input
+              type="number"
+              class="form-control"
+              id="dependents"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Other Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="otherIncome"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Deductions</label>
+            <input
+              type="number"
+              class="form-control"
+              id="deductions"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Deductions</label>
+            <input
+              type="number"
+              class="form-control"
+              id="deductions"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Deductions</label>
+            <input
+              type="number"
+              class="form-control"
+              id="deductions"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Filing_Jointly_Both_Work</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Filing_Jointly_Both_Work"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Souse_Income</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Souse_Income"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Income_Type</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Income_Type"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Income_Period</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Income_Period"
+              placeholder="0"
+            />
+          </div>
+          <div class="col-md-6">
+            <label>Job_Incomes</label>
+            <input
+              type="number"
+              class="form-control"
+              id="Job_Incomes"
+              placeholder="0"
+            />
+          </div>
+
+
+
+      
+
+   </div>
+   
+   
+   
+ 
 <br>
+<div>
         <div class="col-md-6">
   <label>Income Type</label>
   <select class="form-control" id="incomeTypeSingle">
@@ -474,7 +829,7 @@ Qualifying Widow(er)
             CALCULATE
           </button>
         </div>
-
+</div>
         
                 Recommendation text will appear here.
                 
@@ -485,6 +840,8 @@ Qualifying Widow(er)
 
                 
               </div>
+
+              
               <!-- Result -->
         <div id="result" class="result hidden mt-5">
           <h3 class="text-center mb-4">2026 Tax Analysis</h3>

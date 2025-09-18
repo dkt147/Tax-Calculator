@@ -78,11 +78,23 @@ body {
   color: #e8f5e9;
    border-color: #000000;
 }
+
+#Head-of-house-hold.active {
+  background-color: #ffca2c;
+  border-color: #ffca2c;
+}
   #Qualifying-Widower{
 
     background-color: #615b04;
   color: #e8f5e9;
    border-color: #000000;
+  }
+
+
+  #Qualifying-Widower.active{
+
+   background-color: #ffca2c;
+  border-color: #ffca2c;
   }
 /* ===== Background Styling ===== */
 body {

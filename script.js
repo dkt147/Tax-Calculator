@@ -1,226 +1,158 @@
-// Base URL for API
-const API_BASE_URL = "https://api2.on10.io/tax";
 
+
+
+// ===============================
+// Base URLs for API
+// ===============================
+const API_BASE_URL = "https://api2.on10.io/tax";
+const API_CALCULATE = "https://api2.on10.io/tax/calculate";
+const API_CALCULATE_DETAILED = "https://api2.on10.io/tax/calculate/detailed";
+
+// ===============================
 // Splash screen
+// ===============================
 window.addEventListener("load", () => {
   const splash = document.getElementById("splash-screen");
-  setTimeout(() => splash.classList.add("hidden"), 2000);
+  if (splash) {
+    setTimeout(() => splash.classList.add("hidden"), 2000);
+  }
 });
 
+// ===============================
 // Toggle form visibility
-document.getElementById("createCard").addEventListener("click", () => {
-  document.getElementById("custom-form").classList.toggle("hidden");
-});
+// ===============================
+const createCardBtn = document.getElementById("createCard");
+if (createCardBtn) {
+  createCardBtn.addEventListener("click", () => {
+    const customForm = document.getElementById("custom-form");
+    if (customForm) {
+      customForm.classList.toggle("hidden");
+    }
+  });
+}
 
-// Status toggle
 const singleStatus = document.getElementById("single-status");
 const marriedStatus = document.getElementById("married-status");
+const marriedSeparatelyStatus = document.getElementById("Married-Filing-Seprately");
+const headOfHouseholdStatus = document.getElementById("Head-of-house-hold");
+const qualifyingWidowerStatus = document.getElementById("Qualifying-Widower");
+
 const singleFields = document.getElementById("singleFields");
 const marriedFields = document.getElementById("marriedFields");
+const marriedSeparatelyFields = document.getElementById("MarriedFilingSepratelyFields");
+const headOfHouseholdFields = document.getElementById("HeadofhouseholdFields");
+const qualifyingWidowerFields = document.getElementById("QualifyingWidowerFields");
 
-singleStatus.addEventListener("click", () => {
-  singleFields.classList.remove("hidden");
-  marriedFields.classList.add("hidden");
-
-  singleStatus.classList.add("btn-success");
-  singleStatus.classList.remove("btn-warning");
-  marriedStatus.classList.remove("btn-success");
-  marriedStatus.classList.add("btn-warning");
-});
-
-marriedStatus.addEventListener("click", () => {
-  marriedFields.classList.remove("hidden");
+function resetAll() {
   singleFields.classList.add("hidden");
+  marriedFields.classList.add("hidden");
+  marriedSeparatelyFields.classList.add("hidden");
+  headOfHouseholdFields.classList.add("hidden");
+  qualifyingWidowerFields.classList.add("hidden");
 
-  marriedStatus.classList.add("btn-success");
-  marriedStatus.classList.remove("btn-warning");
   singleStatus.classList.remove("btn-success");
   singleStatus.classList.add("btn-warning");
-});
 
-// Deduction toggle
-// const standardBtn = document.getElementById("standard");
-// const itemizedBtn = document.getElementById("itemized");
-// const itemizedSection = document.getElementById("itemizedSection");
+  marriedStatus.classList.remove("btn-success");
+  marriedStatus.classList.add("btn-warning");
 
-// standardBtn.addEventListener("click", () => {
-//   standardBtn.classList.add("btn-success");
-//   standardBtn.classList.remove("btn-outline-success");
-//   itemizedBtn.classList.remove("btn-warning");
-//   itemizedBtn.classList.add("btn-outline-warning");
-//   itemizedSection.classList.add("hidden");
-// });
+  marriedSeparatelyStatus.classList.remove("btn-success");
+  marriedSeparatelyStatus.classList.add("btn-warning");
 
-// itemizedBtn.addEventListener("click", () => {
-//   itemizedBtn.classList.add("btn-warning");
-//   itemizedBtn.classList.remove("btn-outline-warning");
-//   standardBtn.classList.remove("btn-success");
-//   standardBtn.classList.add("btn-outline-success");
-//   itemizedSection.classList.remove("hidden");
-// });
+  headOfHouseholdStatus.classList.remove("btn-success");
+  headOfHouseholdStatus.classList.add("btn-warning");
 
-// Calculate button event
-document.getElementById("calculate").addEventListener("click", async () => {
+  qualifyingWidowerStatus.classList.remove("btn-success");
+  qualifyingWidowerStatus.classList.add("btn-warning");
+}
+
+if (
+  singleStatus &&
+  marriedStatus &&
+  marriedSeparatelyStatus &&
+  headOfHouseholdStatus &&
+  qualifyingWidowerStatus
+) {
+  singleStatus.addEventListener("click", () => {
+    resetAll();
+    singleFields.classList.remove("hidden");
+    singleStatus.classList.add("btn-success");
+    singleStatus.classList.remove("btn-warning");
+  });
+
+  marriedStatus.addEventListener("click", () => {
+    resetAll();
+    marriedFields.classList.remove("hidden");
+    marriedStatus.classList.add("btn-success");
+    marriedStatus.classList.remove("btn-warning");
+  });
+
+  marriedSeparatelyStatus.addEventListener("click", () => {
+    resetAll();
+    marriedSeparatelyFields.classList.remove("hidden");
+    marriedSeparatelyStatus.classList.add("btn-success");
+    marriedSeparatelyStatus.classList.remove("btn-warning");
+  });
+
+  headOfHouseholdStatus.addEventListener("click", () => {
+    resetAll();
+    headOfHouseholdFields.classList.remove("hidden");
+    headOfHouseholdStatus.classList.add("btn-success");
+    headOfHouseholdStatus.classList.remove("btn-warning");
+  });
+
+  qualifyingWidowerStatus.addEventListener("click", () => {
+    resetAll();
+    qualifyingWidowerFields.classList.remove("hidden");
+    qualifyingWidowerStatus.classList.add("btn-success");
+    qualifyingWidowerStatus.classList.remove("btn-warning");
+  });
+};
+
+// ===============================
+// Utility: Display API results
+// ===============================
+function displayResult(result) {
   try {
-    const isSingle = !document.getElementById("singleFields").classList.contains("hidden");
+    const safe = (v, def = 0) => (typeof v === "number" ? v : def);
 
-    // Filing status
-    const filingStatus = isSingle ? "single" : "marriedJointly";
+    document.getElementById("annualTaxLiability").textContent = `$${safe(result.annual_tax_liability).toFixed(2)}`;
+    document.getElementById("currentAnnualWithholding").textContent = `$${safe(result.current_annual_withholding).toFixed(2)}`;
+    const diff = safe(result.difference);
+    document.getElementById("difference").textContent = `${diff >= 0 ? "+" : ""}$${diff.toFixed(2)}`;
+    document.getElementById("recommendedPerPeriod").textContent = `$${safe(result.recommended_per_period).toFixed(2)}`;
+    document.getElementById("payPeriodLabel").textContent = `(${result.pay_period_label || "--"})`;
+    document.getElementById("adjustment").textContent = `$${safe(result.adjustment).toFixed(2)}`;
+    document.getElementById("severityLevel").textContent = (result.severity_level || "").toUpperCase();
 
-    // Inputs based on filing status
-    const personalIncome = parseFloat(
-      isSingle
-        ? document.getElementById("personalIncome").value
-        : document.getElementById("personalIncomeMarried").value
-    ) || 0;
+    document.getElementById("taxableIncome").textContent = `$${safe(result.taxable_income).toFixed(2)}`;
+    document.getElementById("effectiveTaxRate").textContent = `${safe(result.effective_tax_rate).toFixed(2)}%`;
+    document.getElementById("marginalTaxRate").textContent = `${safe(result.marginal_tax_rate).toFixed(2)}%`;
 
-    const spouseIncome = isSingle
-      ? 0
-      : parseFloat(document.getElementById("spouseIncome").value) || 0;
+    document.getElementById("grossIncome").textContent = `$${safe(result.gross_income).toFixed(2)}`;
+    document.getElementById("totalDeductions").textContent = `$${safe(result.total_deductions).toFixed(2)}`;
 
-    const payPeriods = parseInt(
-      isSingle
-        ? document.getElementById("payPeriods").value
-        : document.getElementById("payPeriodsMarried").value
-    ) || 26;
+    document.getElementById("federalTaxBeforeCredits").textContent = `$${safe(result.federal_tax_before_credits).toFixed(2)}`;
+    document.getElementById("childTaxCreditApplied").textContent = `$${safe(result.child_tax_credit_applied).toFixed(2)}`;
 
-    const currentWithholding = parseFloat(
-      isSingle
-        ? document.getElementById("currentWithholding").value
-        : document.getElementById("currentWithholdingMarried").value
-    ) || 0;
+    document.getElementById("recommendation").textContent = result.recommendation || "";
 
-    const additionalWithholding = parseFloat(
-      isSingle
-        ? document.getElementById("additionalWithholding").value
-        : document.getElementById("additionalWithholdingMarried").value
-    ) || 0;
-
-    const dependents = parseInt(
-      isSingle
-        ? document.getElementById("dependents").value
-        : document.getElementById("dependentsMarried").value
-    ) || 0;
-
-    const otherIncome = parseFloat(
-      isSingle
-        ? document.getElementById("otherIncome").value
-        : document.getElementById("otherIncomeMarried").value
-    ) || 0;
-
-    const deductions = parseFloat(
-      isSingle
-        ? document.getElementById("deductions").value
-        : document.getElementById("deductionsMarried").value
-    ) || 0;
-
-    const filingJointlyBothWork = isSingle
-      ? false
-      : document.getElementById("filingJointlyBothWork").checked;
-
-    // Build payload
-    const payload = {
-      filing_status: filingStatus,
-      annual_income: personalIncome,
-      pay_periods: payPeriods,
-      current_withholding: currentWithholding,
-      additional_withholding: additionalWithholding,
-      dependents: dependents,
-      other_income: otherIncome,
-      deductions: deductions,
-      filing_jointly_both_work: filingJointlyBothWork,
-      spouse_income: spouseIncome,
-    };
-
-    console.log("Sending payload:", payload);
-
-    // API call
-    const response = await fetch("https://api2.on10.io/tax/calculate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // "Authorization": "Bearer <token>" // if needed
-      },
-      body: JSON.stringify(payload),
-    });
-
-    const result = await response.json();
-    console.log("API Response:", result);
-
-    if (!response.ok) {
-      alert(`Error: ${result.detail || "Unknown error occurred"}`);
-      return;
+    const resultBox = document.getElementById("result");
+    if (resultBox) {
+      resultBox.classList.remove("hidden");
+      resultBox.scrollIntoView({ behavior: "smooth" });
     }
-
-    // Update redesigned UI
-    document.getElementById("annualTaxLiability").textContent = `$${result.annual_tax_liability.toFixed(2)}`;
-    document.getElementById("currentAnnualWithholding").textContent = `$${result.current_annual_withholding.toFixed(2)}`;
-    document.getElementById("difference").textContent = `${result.difference >= 0 ? "+" : ""}$${result.difference.toFixed(2)}`;
-    document.getElementById("recommendedPerPeriod").textContent = `$${result.recommended_per_period.toFixed(2)}`;
-    document.getElementById("payPeriodLabel").textContent = `(${result.pay_period_label})`;
-    document.getElementById("adjustment").textContent = `$${result.adjustment.toFixed(2)}`;
-    document.getElementById("severityLevel").textContent = result.severity_level.toUpperCase();
-
-    document.getElementById("taxableIncome").textContent = `$${result.taxable_income.toFixed(2)}`;
-    document.getElementById("effectiveTaxRate").textContent = `${result.effective_tax_rate.toFixed(2)}%`;
-    document.getElementById("marginalTaxRate").textContent = `${result.marginal_tax_rate.toFixed(2)}%`;
-
-    document.getElementById("grossIncome").textContent = `$${result.gross_income.toFixed(2)}`;
-    document.getElementById("totalDeductions").textContent = `$${result.total_deductions.toFixed(2)}`;
-
-    document.getElementById("federalTaxBeforeCredits").textContent = `$${result.federal_tax_before_credits.toFixed(2)}`;
-    document.getElementById("childTaxCreditApplied").textContent = `$${result.child_tax_credit_applied.toFixed(2)}`;
-
-    document.getElementById("recommendation").textContent = result.recommendation;
-
-    // Show results
-    document.getElementById("result").classList.remove("hidden");
-  } catch (error) {
-    console.error("API Error:", error);
-    alert("Something went wrong. Check console for details.");
+  } catch (err) {
+    console.error("displayResult error:", err);
   }
+}
 
-
-
-
-
-
-  
-  
-});
-
-
-const addJobBtn = document.getElementById("addJob");
-const jobsContainer = document.getElementById("jobsContainer");
-
-addJobBtn.addEventListener("click", () => {
-  const jobCount = jobsContainer.querySelectorAll(".job-entry").length + 1;
-  
-  const jobDiv = document.createElement("div");
-  jobDiv.classList.add("job-entry", "row", "g-3", "mb-3");
-  jobDiv.innerHTML = `
-    <div class="col-md-4">
-      <label>Job Name</label>
-      <input type="text" class="form-control jobName" placeholder="Job ${jobCount}" />
-    </div>
-    <div class="col-md-4">
-      <label>Income</label>
-      <input type="number" class="form-control jobIncome" value="0" />
-    </div>
-    <div class="col-md-4">
-      <label>Federal Tax Withheld</label>
-      <input type="number" class="form-control jobWithheld" value="0" />
-    </div>
-  `;
-  jobsContainer.appendChild(jobDiv);
-});
-
-
-
-
-async function calculateTaxForCard(payload) {
+// ===============================
+// API caller
+// ===============================
+async function calculateTaxForCard(payload, endpoint = API_CALCULATE) {
   try {
-    const response = await fetch("https://api2.on10.io/tax/calculate", {
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -230,40 +162,47 @@ async function calculateTaxForCard(payload) {
 
     if (!response.ok) {
       alert(`Error: ${result.detail || "Unknown error occurred"}`);
+      console.error("API error response:", result);
       return;
     }
 
- 
-    document.getElementById("annualTaxLiability").textContent = `$${result.annual_tax_liability.toFixed(2)}`;
-    document.getElementById("currentAnnualWithholding").textContent = `$${result.current_annual_withholding.toFixed(2)}`;
-    document.getElementById("difference").textContent = `${result.difference >= 0 ? "+" : ""}$${result.difference.toFixed(2)}`;
-    document.getElementById("recommendedPerPeriod").textContent = `$${result.recommended_per_period.toFixed(2)}`;
-    document.getElementById("payPeriodLabel").textContent = `(${result.pay_period_label})`;
-    document.getElementById("adjustment").textContent = `$${result.adjustment.toFixed(2)}`;
-    document.getElementById("severityLevel").textContent = result.severity_level.toUpperCase();
-
-    document.getElementById("taxableIncome").textContent = `$${result.taxable_income.toFixed(2)}`;
-    document.getElementById("effectiveTaxRate").textContent = `${result.effective_tax_rate.toFixed(2)}%`;
-    document.getElementById("marginalTaxRate").textContent = `${result.marginal_tax_rate.toFixed(2)}%`;
-
-    document.getElementById("grossIncome").textContent = `$${result.gross_income.toFixed(2)}`;
-    document.getElementById("totalDeductions").textContent = `$${result.total_deductions.toFixed(2)}`;
-
-    document.getElementById("federalTaxBeforeCredits").textContent = `$${result.federal_tax_before_credits.toFixed(2)}`;
-    document.getElementById("childTaxCreditApplied").textContent = `$${result.child_tax_credit_applied.toFixed(2)}`;
-
-    document.getElementById("recommendation").textContent = result.recommendation;
-
-    // Show result box
-    document.getElementById("result").classList.remove("hidden");
-    document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+    displayResult(result);
+    return result;
   } catch (error) {
     console.error("API Error:", error);
     alert("Something went wrong. Check console for details.");
   }
 }
 
-// --- James Card ---
+// ===============================
+// Add job rows
+// ===============================
+const addJobBtn = document.getElementById("addJob");
+const jobsContainer = document.getElementById("jobsContainer");
+
+if (addJobBtn && jobsContainer) {
+  addJobBtn.addEventListener("click", () => {
+    const jobCount = jobsContainer.querySelectorAll(".job-entry").length + 1;
+    const jobDiv = document.createElement("div");
+    jobDiv.classList.add("job-entry", "row", "g-3", "mb-3");
+    jobDiv.innerHTML = `
+      <div class="col-md-4">
+        <label>Job Name</label>
+        <input type="text" class="form-control jobName" placeholder="Job ${jobCount}" />
+      </div>
+      <div class="col-md-4">
+        <label>Income</label>
+        <input type="number" class="form-control jobIncome" value="0" />
+      </div>
+      <div class="col-md-4">
+        <label>Federal Tax Withheld</label>
+        <input type="number" class="form-control jobWithheld" value="0" />
+      </div>
+    `;
+    jobsContainer.appendChild(jobDiv);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const jamesCard = document.getElementById("jamesCard");
   if (jamesCard) {
@@ -284,7 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Jason Card ---
   const jasonCard = document.getElementById("jasonCard");
   if (jasonCard) {
     jasonCard.addEventListener("click", () => {
@@ -294,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
         pay_periods: 26,
         current_withholding: 0,
         additional_withholding: 0,
-        dependents: 2, 
+        dependents: 2,
         other_income: 0,
         deductions: 0,
         filing_jointly_both_work: false,
@@ -304,161 +242,187 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const amberCard = document.getElementById("amberCard");
+  if (amberCard) {
+    amberCard.addEventListener("click", () => {
+      const payload = {
+        filing_status: "single",
+        annual_income: 75000,
+        pay_periods: 26,
+        current_withholding: 0,
+        additional_withholding: 0,
+        dependents: 0,
+        other_income: 0,
+        deductions: 0,
+        filing_jointly_both_work: false,
+        spouse_income: 0
+      };
+      calculateTaxForCard(payload);
+    });
+  }
 
-  // --- Amber Card ---
-const amberCard = document.getElementById("amberCard");
-if (amberCard) {
-  amberCard.addEventListener("click", () => {
-    const payload = {
-      filing_status: "single",
-      annual_income: 75000,
-      pay_periods: 26,
-      current_withholding: 0,
-      additional_withholding: 0,
-      dependents: 0,
-      other_income: 0,
-      deductions: 0,
-      filing_jointly_both_work: false,
-      spouse_income: 0
-    };
-    calculateTaxForCard(payload);
-  });
-}
+  const nickKavyaCard = document.getElementById("nickKavyaCard");
+  if (nickKavyaCard) {
+    nickKavyaCard.addEventListener("click", () => {
+      const payload = {
+        filing_status: "marriedJointly",
+        annual_income: 85000,
+        spouse_income: 0,
+        pay_periods: 26,
+        current_withholding: 0,
+        additional_withholding: 0,
+        dependents: 2,
+        other_income: 0,
+        deductions: 0,
+        filing_jointly_both_work: false
+      };
+      calculateTaxForCard(payload);
+    });
+  }
 
-// Nick & Kavya card 
-const nickKavyaCard = document.getElementById("nickKavyaCard");
-if (nickKavyaCard) {
-  nickKavyaCard.addEventListener("click", () => {
-    const payload = {
-      filing_status: "marriedJointly",
-      annual_income: 85000,
-      spouse_income: 0,
-      pay_periods: 26,
-      current_withholding: 0,
-      additional_withholding: 0,
-      dependents: 2, 
-      other_income: 0,
-      deductions: 0,
-      filing_jointly_both_work: false
-    };
-    calculateTaxForCard(payload); 
-  });
-}
 
 });
 
-
-
-
-// Show/hide hourly fields based on income type
+// ===============================
+// Show/hide hourly fields
+// ===============================
 const incomeTypeSingle = document.getElementById("incomeTypeSingle");
 const hourlyFieldsSingle = document.getElementById("hourlyFieldsSingle");
-
-incomeTypeSingle.addEventListener("change", () => {
-  if (incomeTypeSingle.value === "hourly") {
-    hourlyFieldsSingle.classList.remove("hidden");
-  } else {
-    hourlyFieldsSingle.classList.add("hidden");
-  }
-});
+if (incomeTypeSingle && hourlyFieldsSingle) {
+  incomeTypeSingle.addEventListener("change", () => {
+    if (incomeTypeSingle.value === "hourly") {
+      hourlyFieldsSingle.classList.remove("hidden");
+    } else {
+      hourlyFieldsSingle.classList.add("hidden");
+    }
+  });
+}
 
 const incomeTypeMarried = document.getElementById("incomeTypeMarried");
 const hourlyFieldsMarried = document.getElementById("hourlyFieldsMarried");
+if (incomeTypeMarried && hourlyFieldsMarried) {
+  incomeTypeMarried.addEventListener("change", () => {
+    if (incomeTypeMarried.value === "hourly") {
+      hourlyFieldsMarried.classList.remove("hidden");
+    } else {
+      hourlyFieldsMarried.classList.add("hidden");
+    }
+  });
+}
 
-incomeTypeMarried.addEventListener("change", () => {
-  if (incomeTypeMarried.value === "hourly") {
-    hourlyFieldsMarried.classList.remove("hidden");
-  } else {
-    hourlyFieldsMarried.classList.add("hidden");
+// ===============================
+// Calculate button handler
+// ===============================
+// ---------- FORM TOGGLE FOR FILING STATUS ----------
+const statusButtons = {
+  "single-status": "singleFields",
+  "married-status": "marriedFields",
+  "married-separate-status": "MarriedFilingSepratelyFields",
+  "hoh-status": "HeadofhouseholdFields",
+  "widower-status": "QualifyingWidowerFields"
+};
+
+// Hide all fields initially
+function hideAllFields() {
+  Object.values(statusButtons).forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add("hidden");
+  });
+}
+
+// Add click events to toggle forms
+Object.keys(statusButtons).forEach(btnId => {
+  const btn = document.getElementById(btnId);
+  const fieldId = statusButtons[btnId];
+  if (btn) {
+    btn.addEventListener("click", () => {
+      hideAllFields();
+      const fieldEl = document.getElementById(fieldId);
+      if (fieldEl) fieldEl.classList.remove("hidden");
+    });
   }
 });
 
-// Calculate Button
-document.getElementById("calculate").addEventListener("click", async () => {
-  const isSingle = !document.getElementById("singleFields").classList.contains("hidden");
+// ---------- CALCULATE BUTTON ----------
+const calculateBtn = document.getElementById("calculate");
 
-  // Filing status
-  const filingStatus = isSingle ? "single" : "marriedJointly";
+if (calculateBtn) {
+  calculateBtn.addEventListener("click", async () => {
+    let filingStatus = "";
+    let annualIncome = 0;
+    let payPeriods = 26;
+    let currentWithholding = 0;
+    let additionalWithholding = 0;
+    let dependents = 0;
+    let otherIncome = 0;
+    let deductions = 0;
+    let spouseIncome = 0;
 
-  // Income type
-  const incomeType = isSingle
-    ? document.getElementById("incomeTypeSingle").value
-    : document.getElementById("incomeTypeMarried").value;
+    // Determine which form is visible
+    if (!document.getElementById("singleFields").classList.contains("hidden")) {
+      filingStatus = "single";
+      annualIncome = parseFloat(document.getElementById("personalIncome").value) || 0;
+      payPeriods = parseInt(document.getElementById("payPeriods").value) || 26;
+      currentWithholding = parseFloat(document.getElementById("currentWithholding").value) || 0;
+      additionalWithholding = parseFloat(document.getElementById("additionalWithholding").value) || 0;
+      dependents = parseInt(document.getElementById("dependents").value) || 0;
+      otherIncome = parseFloat(document.getElementById("otherIncome").value) || 0;
+      deductions = parseFloat(document.getElementById("deductions").value) || 0;
+    } else if (!document.getElementById("marriedFields").classList.contains("hidden")) {
+      filingStatus = "marriedJointly";
+      annualIncome = parseFloat(document.getElementById("personalIncomeMarried").value) || 0;
+      spouseIncome = parseFloat(document.getElementById("spouseIncome").value) || 0;
+      payPeriods = parseInt(document.getElementById("payPeriodsMarried").value) || 26;
+      currentWithholding = parseFloat(document.getElementById("currentWithholdingMarried").value) || 0;
+      additionalWithholding = parseFloat(document.getElementById("additionalWithholdingMarried").value) || 0;
+      dependents = parseInt(document.getElementById("dependentsMarried").value) || 0;
+      otherIncome = parseFloat(document.getElementById("otherIncomeMarried").value) || 0;
+      deductions = parseFloat(document.getElementById("deductionsMarried").value) || 0;
+    } else if (!document.getElementById("MarriedFilingSepratelyFields").classList.contains("hidden")) {
+      filingStatus = "marriedSeparately";
+      annualIncome = parseFloat(document.getElementById("personalIncome").value) || 0;
+      payPeriods = parseInt(document.getElementById("payPeriods").value) || 26;
+      currentWithholding = parseFloat(document.getElementById("currentWithholding").value) || 0;
+      additionalWithholding = parseFloat(document.getElementById("additionalWithholding").value) || 0;
+      dependents = parseInt(document.getElementById("dependents").value) || 0;
+      otherIncome = parseFloat(document.getElementById("otherIncome").value) || 0;
+      deductions = parseFloat(document.getElementById("deductions").value) || 0;
+    } else if (!document.getElementById("HeadofhouseholdFields").classList.contains("hidden")) {
+      filingStatus = "headOfHousehold";
+      annualIncome = parseFloat(document.getElementById("personalIncome").value) || 0;
+      payPeriods = parseInt(document.getElementById("payPeriods").value) || 26;
+      currentWithholding = parseFloat(document.getElementById("currentWithholding").value) || 0;
+      additionalWithholding = parseFloat(document.getElementById("additionalWithholding").value) || 0;
+      dependents = parseInt(document.getElementById("dependents").value) || 0;
+      otherIncome = parseFloat(document.getElementById("otherIncome").value) || 0;
+      deductions = parseFloat(document.getElementById("deductions").value) || 0;
+    } else if (!document.getElementById("QualifyingWidowerFields").classList.contains("hidden")) {
+      filingStatus = "qualifyingWidower";
+      annualIncome = parseFloat(document.getElementById("personalIncome").value) || 0;
+      payPeriods = parseInt(document.getElementById("payPeriods").value) || 26;
+      currentWithholding = parseFloat(document.getElementById("currentWithholding").value) || 0;
+      additionalWithholding = parseFloat(document.getElementById("additionalWithholding").value) || 0;
+      dependents = parseInt(document.getElementById("dependents").value) || 0;
+      otherIncome = parseFloat(document.getElementById("otherIncome").value) || 0;
+      deductions = parseFloat(document.getElementById("deductions").value) || 0;
+    }
 
-  // Annual income
-  let annualIncome = isSingle
-    ? parseFloat(document.getElementById("personalIncome").value) || 0
-    : parseFloat(document.getElementById("personalIncomeMarried").value) || 0;
+    const payload = {
+      filing_status: filingStatus,
+      annual_income: annualIncome,
+      spouse_income: spouseIncome,
+      pay_periods: payPeriods,
+      current_withholding: currentWithholding,
+      additional_withholding: additionalWithholding,
+      dependents: dependents,
+      other_income: otherIncome,
+      deductions: deductions
+    };
 
-  // Adjust annual income if hourly
-  if (incomeType === "hourly") {
-    const hoursPerWeek = isSingle
-      ? parseFloat(document.getElementById("hoursPerWeek").value) || 40
-      : parseFloat(document.getElementById("hoursPerWeekMarried").value) || 40;
-    const weeksPerYear = isSingle
-      ? parseFloat(document.getElementById("weeksPerYear").value) || 52
-      : parseFloat(document.getElementById("weeksPerYearMarried").value) || 52;
-    annualIncome = annualIncome * hoursPerWeek * weeksPerYear;
-  }
+    console.log("Payload:", payload);
 
-  const spouseIncome = isSingle
-    ? 0
-    : parseFloat(document.getElementById("spouseIncome").value) || 0;
-
-  const payPeriods = isSingle
-    ? parseInt(document.getElementById("payPeriods").value) || 26
-    : parseInt(document.getElementById("payPeriodsMarried").value) || 26;
-
-  const currentWithholding = isSingle
-    ? parseFloat(document.getElementById("currentWithholding").value) || 0
-    : parseFloat(document.getElementById("currentWithholdingMarried").value) || 0;
-
-  const additionalWithholding = isSingle
-    ? parseFloat(document.getElementById("additionalWithholding").value) || 0
-    : parseFloat(document.getElementById("additionalWithholdingMarried").value) || 0;
-
-  const dependents = isSingle
-    ? parseInt(document.getElementById("dependents").value) || 0
-    : parseInt(document.getElementById("dependentsMarried").value) || 0;
-
-  const otherIncome = isSingle
-    ? parseFloat(document.getElementById("otherIncome").value) || 0
-    : parseFloat(document.getElementById("otherIncomeMarried").value) || 0;
-
-  const deductions = isSingle
-    ? parseFloat(document.getElementById("deductions").value) || 0
-    : parseFloat(document.getElementById("deductionsMarried").value) || 0;
-
-  const filingJointlyBothWork = isSingle ? false : document.getElementById("filingJointlyBothWork").checked;
-
-  // Build payload
-  const payload = {
-    filing_status: filingStatus,
-    annual_income: annualIncome,
-    income_type: incomeType,
-    spouse_income: spouseIncome,
-    pay_periods: payPeriods,
-    current_withholding: currentWithholding,
-    additional_withholding: additionalWithholding,
-    dependents: dependents,
-    other_income: otherIncome,
-    deductions: deductions,
-    filing_jointly_both_work: filingJointlyBothWork
-  };
-
-  console.log("Payload:", payload);
-
-  // Call API
-  await calculateTaxForCard(payload);
-});
-
-
-
-
-
-
-
-
-
-
+    // Call your tax calculation function
+    await calculateTaxForCard(payload);
+  });
+}
 
