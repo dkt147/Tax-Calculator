@@ -1,1056 +1,916 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Custom Tax Calculator</title>
-    <link rel="stylesheet" href="style.css" />
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-      rel="stylesheet">
 
-    <style>
-      .hidden {
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container" id="main-content">
-      <!-- Social Icons -->
-      <div class="social-icons mb-3">
-        <i class="fab fa-twitter"></i>
-        <i class="fab fa-facebook"></i>
-        <i class="fab fa-linkedin"></i>
-        <i class="fas fa-paper-plane"></i>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Tax Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="main-content">
+    <!-- Social Icons -->
+    <div class="social-icons mb-3">
+      <i class="fab fa-twitter"></i>
+      <i class="fab fa-facebook"></i>
+      <i class="fab fa-linkedin"></i>
+      <i class="fas fa-paper-plane"></i>
+    </div>
+
+    <h2>Select a Profile or Create a Scenario</h2>
+
+    <!-- Profiles -->
+    <div class="profiles">
+      <!-- Create Scenario -->
+      <div class="card create" id="createCard">
+        <img src="./assets/plus.png" alt="Create Scenario" />
+        <p><strong>Create a Custom Scenario</strong></p>
       </div>
 
-      <h2>Select a Profile or Create a Scenario</h2>
-
-      <!-- Profiles -->
-      <div class="profiles">
-        <!-- Create Scenario -->
-        <div class="card create" id="createCard">
-          <img src="./assets/plus.png"
-            alt="Create Scenario" />
-          <p><strong>Create a Custom Scenario</strong></p>
-        </div>
-
-        <!-- James -->
-        <div class="card" id="jamesCard">
-          <img src="./assets/single-person.png"
-            alt="James" />
-          <p>
-            <strong>James</strong><br />
-            Single, No Kids<br />
-            $30,000
-          </p>
-          <div id="jamesResult" style="display:none;"></div>
-        </div>
-
-        <!-- Jason -->
-        <div class="card" id="jasonCard">
-          <div id="jasonResult" style="display:none;"></div>
-          <img src="./assets/team.png"
-            alt="Jason" />
-          <p>
-            <strong>Jason</strong><br />
-            Single, 2 Kids<br />
-            $52,000
-          </p>
-        </div>
-
-        <!-- Amber -->
-        <div class="card" id="amberCard">
-          <img src="./assets/single-person.png"
-            alt="Amber" />
-          <p>
-            <strong>Amber</strong><br />
-            Single, No Kids<br />
-            $75,000
-          </p>
-          <div id="amberResult" style="display:none;"></div>
-        </div>
-
-        <!-- Nick & Kavya -->
-        <div class="card" id="nickKavyaCard">
-          <img src="./assets/family.png"
-            alt="Kavya & Nick" />
-          <p>
-            <strong>Kavya & Nick</strong><br />
-            Married, 2 Kids<br />
-            $85,000
-          </p>
-          <div id="kanyanickResult" style="display:none;"></div>
-        </div>
+      <!-- James -->
+      <div class="card" id="jamesCard">
+        <img src="./assets/single-person.png" alt="James" />
+        <p>
+          <strong>James</strong><br />
+          Single, No Kids<br />
+          $30,000
+        </p>
+        <div id="jamesResult" style="display:none;"></div>
       </div>
 
-      <!-- filing status modal -->
-      <div class="modal fade" id="filingStatusModal" tabindex="-1"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content p-3">
-            <div class="modal-header border-0">
-              <h5 class="modal-title">Choose a Filing Status</h5>
-              <button type="button" class="btn-close"
-                data-bs-dismiss="modal"></button>
+      <!-- Jason -->
+      <div class="card" id="jasonCard">
+        <div id="jasonResult" style="display:none;"></div>
+        <img src="./assets/team.png" alt="Jason" />
+        <p>
+          <strong>Jason</strong><br />
+          Single, 2 Kids<br />
+          $52,000
+        </p>
+      </div>
+
+      <!-- Amber -->
+      <div class="card" id="amberCard">
+        <img src="./assets/single-person.png" alt="Amber" />
+        <p>
+          <strong>Amber</strong><br />
+          Single, No Kids<br />
+          $75,000
+        </p>
+        <div id="amberResult" style="display:none;"></div>
+      </div>
+
+      <!-- Nick & Kavya -->
+      <div class="card" id="nickKavyaCard">
+        <img src="./assets/family.png" alt="Kavya & Nick" />
+        <p>
+          <strong>Kavya & Nick</strong><br />
+          Married, 2 Kids<br />
+          $85,000
+        </p>
+        <div id="kanyanickResult" style="display:none;"></div>
+      </div>
+    </div>
+
+    <!-- filing status modal -->
+    <div class="modal fade" id="filingStatusModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-3">
+          <div class="modal-header border-0">
+            <h5 class="modal-title">Choose a Filing Status</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="deduction-options d-flex gap-3 my-3">
+              <button class="btn btn-success w-50">Single Filer</button>
+              <button class="btn btn-outline-warning w-50">Married Filing
+                Jointly</button>
             </div>
-            <div class="modal-body">
-              <div class="deduction-options d-flex gap-3 my-3">
-                <button class="btn btn-success w-50">Single Filer</button>
-                <button class="btn btn-outline-warning w-50">Married Filing
-                  Jointly</button>
-              </div>
-              <div class="deduction-options d-flex gap-3 my-3">
-                <button class="btn btn-success w-50">Married Filing
-                  Separately</button>
-                <button class="btn btn-outline-warning w-50">Head of House
-                  Hold</button>
-              </div>
-              <div class="deduction-options d-flex gap-3 my-3">
-                <button class="btn btn-success w-100">Qualifying
-                  Widow(er)</button>
-              </div>
+            <div class="deduction-options d-flex gap-3 my-3">
+              <button class="btn btn-success w-50">Married Filing
+                Separately</button>
+              <button class="btn btn-outline-warning w-50">Head of House
+                Hold</button>
+            </div>
+            <div class="deduction-options d-flex gap-3 my-3">
+              <button class="btn btn-success w-100">Qualifying
+                Widow(er)</button>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Custom Form -->
+    <!-- Custom Form -->
 
-      <div id="custom-form" class="form hidden mt-4">
-        <!-- Fields for Single -->
-        <div id="singleFields" class="row g-3 hidden">
+    <div id="custom-form" class="form hidden mt-4">
+      <!-- Fields for Single -->
+      <div id="singleFields" class="row g-3 hidden">
 
-          <h4 style="text-align: center;">Single</h4>
+        <h4 style="text-align: center;">Single</h4>
 
-          <!-- Annual Income -->
-          <div class="col-md-6">
-            <label for="gross_income">Gross Income</label>
-            <input type="number" class="form-control" id="gross_income"
-              name="gross_income" placeholder="0" />
-            <small class="form-text text-muted">
-              Please enter the amount from your latest paystub from your current
-              job, or the last paystub from your previous job.
-            </small>
+        <!-- Annual Income -->
+        <div class="col-md-6">
+          <label for="gross_income">Gross Income</label>
+          <input type="number" class="form-control" id="gross_income" name="gross_income" placeholder="0" />
+          <small class="form-text text-muted">
+            Please enter the amount from your latest paystub from your current
+            job, or the last paystub from your previous job.
+          </small>
+        </div>
+
+        <!-- Pay Periods -->
+        <div class="col-md-6">
+          <label for="pay_frequency">Pay Frequency</label>
+          <select class="form-control" id="pay_frequency" name="pay_frequency">
+            <option value="12">Monthly</option>
+            <option value="26">Bi-Weekly</option>
+            <option value="52">Weekly</option>
+          </select>
+        </div>
+
+        <!-- Current Withholding -->
+        <div class="col-md-6">
+          <label for="current_federal_withholding">Current Federal Income Tax
+            Withholding</label>
+          <input type="number" class="form-control" id="current_federal_withholding" name="current_federal_withholding"
+            placeholder="0" />
+        </div>
+
+        <!-- Additional Withholding -->
+        <div class="col-md-6">
+          <label>Additional Withholding</label>
+          <input type="number" class="form-control" id="additional_withholding" name="additional_withholding"
+            placeholder="0" />
+        </div>
+
+        <!-- Dependents -->
+        <div class="col-md-6">
+          <label>Dependents</label>
+          <input type="number" class="form-control" id="dependents" name="dependents" placeholder="0" />
+        </div>
+
+        <!-- Deductions Options -->
+        <div class="col-md-12">
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="use_itemized_deductions"
+              name="use_itemized_deductions" />
+            <label class="form-check-label" for="use_itemized_deductions">
+              Use Itemized Deductions
+            </label>
           </div>
 
-          <!-- Pay Periods -->
-          <div class="col-md-6">
-            <label for="pay_frequency">Pay Frequency</label>
-            <select class="form-control" id="pay_frequency"
-              name="pay_frequency">
-              <option value="12">Monthly</option>
-              <option value="26">Bi-Weekly</option>
-              <option value="52">Weekly</option>
-            </select>
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="is_nonresident" name="is_nonresident" />
+            <label class="form-check-label" for="is_nonresident">
+              Non-Resident
+            </label>
           </div>
 
-          <!-- Current Withholding -->
-          <div class="col-md-6">
-            <label for="current_federal_withholding">Current Federal Income Tax
-              Withholding</label>
-            <input type="number" class="form-control"
-              id="current_federal_withholding"
-              name="current_federal_withholding" placeholder="0" />
-          </div>
-
-          <!-- Additional Withholding -->
-          <div class="col-md-6">
-            <label>Additional Withholding</label>
-            <input type="number" class="form-control"
-              id="additional_withholding" name="additional_withholding"
+          <!-- State Income Tax Paid (Non-Resident Only) -->
+          <div class="col-md-6" id="stateIncomeTaxWrapper" style="display: none;">
+            <label for="state_income_tax_paid">State Income Tax Paid</label>
+            <input type="number" class="form-control" id="state_income_tax_paid" name="state_income_tax_paid"
               placeholder="0" />
           </div>
+        </div>
 
-          <!-- Dependents -->
-          <div class="col-md-6">
-            <label>Dependents</label>
-            <input type="number" class="form-control" id="dependents"
-              name="dependents" placeholder="0" />
+        <!-- Other Income -->
+        <div class="col-md-6">
+          <label>Other Income</label>
+          <input type="number" class="form-control" id="other_income" name="other_income" placeholder="0" />
+        </div>
+
+        <!-- Deductions -->
+        <div class="col-md-6">
+          <!-- <label>Deductions</label> -->
+          <input hidden type="number" class="form-control" id="deductions" name="deductions" placeholder="15750"
+            value="15750" />
+        </div>
+
+        <!-- Income Type -->
+        <div class="col-md-6">
+          <label>Income Type</label>
+          <select class="form-select" id="income_type" name="income_type">
+            <option value="salary">Salary</option>
+            <option value="hourly">Hourly</option>
+            <option value="self-employed">Self-Employed Income</option>
+          </select>
+        </div>
+
+        <!-- Income Period -->
+        <div class="col-md-6">
+          <label>Income Period</label>
+          <select class="form-select" id="income_period" name="income_period">
+            <option value="full_year">Full Year</option>
+            <option value="partial_year">Partial Year</option>
+          </select>
+        </div>
+
+        <!-- Job Incomes (Dynamic Rows) -->
+        <div class="col-md-12">
+          <label>Job Incomes</label>
+          <div id="jobIncomesWrapper"></div>
+          <button type="button" class="btn btn-sm btn-primary mt-2" onclick="addJobIncome('jobIncomesWrapperSingle')">+
+            Add
+            Job</button>
+          <div id="jobIncomesWrapperSingle"></div>
+        </div>
+
+        <!-- Hidden fixed values -->
+        <input type="hidden" id="filing_status" name="filing_status" value="single" />
+        <input type="hidden" id="filing_jointly_both_work" name="filing_jointly_both_work" value="false" />
+        <input type="hidden" id="spouse_income" name="spouse_income" value="0" />
+
+        <!-- Confirm -->
+        <div class="col-md-12">
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="checkpointSingle" name="checkpointSingle" />
+            <label class="form-check-label" for="checkpointSingle">
+              Confirm all data entered is accurate
+            </label>
           </div>
+        </div>
+      </div>
 
-          <!-- Deductions Options -->
-          <div class="col-md-12">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="use_itemized_deductions"
-                name="use_itemized_deductions" />
-              <label class="form-check-label" for="use_itemized_deductions">
-                Use Itemized Deductions
-              </label>
-            </div>
+      <!--End Fields for Single -->
 
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="is_nonresident"
-                name="is_nonresident" />
-              <label class="form-check-label" for="is_nonresident">
-                Non-Resident
-              </label>
-            </div>
+      <!-- Fields for Married -->
+      <div id="marriedFields" class="row g-3 hidden">
 
-            <!-- State Income Tax Paid (Non-Resident Only) -->
-            <div class="col-md-6" id="stateIncomeTaxWrapper"
-              style="display: none;">
-              <label for="state_income_tax_paid">State Income Tax Paid</label>
-              <input type="number" class="form-control"
-                id="state_income_tax_paid"
-                name="state_income_tax_paid" placeholder="0" />
-            </div>
-          </div>
+        <h4 style="text-align: center;">Married Jointly</h4>
 
-          <!-- Other Income -->
-          <div class="col-md-6">
-            <label>Other Income</label>
-            <input type="number" class="form-control" id="other_income"
-              name="other_income" placeholder="0" />
-          </div>
+        <!-- Annual Income -->
+        <div class="col-md-6">
+          <label for="gross_income_married">Gross Income</label>
+          <input type="number" class="form-control" id="gross_income_married" name="gross_income_married"
+            placeholder="0" />
+          <small class="form-text text-muted">
+            Please enter the amount from your latest paystub from your current
+            job, or the last paystub from your previous job.
+          </small>
+        </div>
 
-          <!-- Deductions -->
-          <div class="col-md-6">
-            <!-- <label>Deductions</label> -->
-            <input hidden type="number" class="form-control" id="deductions"
-              name="deductions" placeholder="15750" value="15750" />
-          </div>
+        <!-- Spouse Income -->
+        <div class="col-md-6">
+          <label>Spouse Income</label>
+          <input type="number" class="form-control" id="spouse_income" name="spouse_income" value="0" />
+        </div>
 
-          <!-- Income Type -->
-          <div class="col-md-6">
-            <label>Income Type</label>
-            <select class="form-select" id="income_type" name="income_type">
-              <option value="salary">Salary</option>
-              <option value="hourly">Hourly</option>
-              <option value="self-employed">Self-Employed Income</option>
-            </select>
-          </div>
+        <!-- Pay Periods -->
+        <div class="col-md-6">
+          <label for="pay_frequency_married">Pay Frequency</label>
+          <select class="form-control" id="pay_frequency_married" name="pay_frequency_married">
+            <option value="12">Monthly</option>
+            <option value="26">Bi-Weekly</option>
+            <option value="52">Weekly</option>
+          </select>
+        </div>
 
-          <!-- Income Period -->
-          <div class="col-md-6">
-            <label>Income Period</label>
-            <select class="form-select" id="income_period" name="income_period">
-              <option value="full_year">Full Year</option>
-              <option value="partial_year">Partial Year</option>
-            </select>
-          </div>
+        <!-- Current Withholding -->
+        <div class="col-md-6">
+          <label for="current_federal_withholding_married">Current Federal
+            Income Tax
+            Withholding</label>
+          <input type="number" class="form-control" id="current_federal_withholding_married"
+            name="current_federal_withholding_married" placeholder="0" />
+        </div>
 
-          <!-- Job Incomes (Dynamic Rows) -->
-          <div class="col-md-12">
-            <label>Job Incomes</label>
-            <div id="jobIncomesWrapper"></div>
-            <button type="button" class="btn btn-sm btn-primary mt-2"
-              onclick="addJobIncome('jobIncomesWrapperSingle')">+ Add
-              Job</button>
-            <div id="jobIncomesWrapperSingle"></div>
-          </div>
-
-          <!-- Hidden fixed values -->
-          <input type="hidden" id="filing_status" name="filing_status"
-            value="single" />
-          <input type="hidden" id="filing_jointly_both_work"
-            name="filing_jointly_both_work" value="false" />
-          <input type="hidden" id="spouse_income" name="spouse_income"
+        <!-- Additional Withholding -->
+        <div class="col-md-6">
+          <label>Additional Withholding</label>
+          <input type="number" class="form-control" id="additional_withholding_married" name="additional_withholding"
             value="0" />
+        </div>
 
-          <!-- Confirm -->
-          <div class="col-md-12">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="checkpointSingle" name="checkpointSingle" />
-              <label class="form-check-label" for="checkpointSingle">
-                Confirm all data entered is accurate
-              </label>
-            </div>
+        <!-- Dependents -->
+        <div class="col-md-6">
+          <label>Dependents</label>
+          <input type="number" class="form-control" id="dependents_married" name="dependents" value="0" />
+        </div>
+
+        <!-- Deductions Options -->
+        <div class="col-md-12">
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="use_itemized_deductions_married"
+              name="use_itemized_deductions_married" />
+            <label class="form-check-label" for="use_itemized_deductions_married">
+              Use Itemized Deductions
+            </label>
+          </div>
+
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="is_nonresident_married" name="is_nonresident_married" />
+            <label class="form-check-label" for="is_nonresident_married">
+              Non-Resident
+            </label>
+          </div>
+
+          <!-- State Income Tax Paid (Non-Resident Only) -->
+          <div class="col-md-6" id="stateIncomeTaxWrapper_married" style="display: none;">
+            <label for="state_income_tax_paid_married">State Income Tax
+              Paid</label>
+            <input type="number" class="form-control" id="state_income_tax_paid_married"
+              name="state_income_tax_paid_married" placeholder="0" />
           </div>
         </div>
 
-        <!--End Fields for Single -->
+        <!-- Other Income -->
+        <div class="col-md-6">
+          <label>Other Income</label>
+          <input type="number" class="form-control" id="other_income_married" name="other_income" value="0" />
+        </div>
 
-        <!-- Fields for Married -->
-        <div id="marriedFields" class="row g-3 hidden">
+        <!-- Deductions -->
+        <div class="col-md-6">
+          <!-- <label>Deductions</label> -->
+          <input type="number" hidden class="form-control" id="deductions_married" name="deductions" value="31500" />
+        </div>
 
-          <h4 style="text-align: center;">Married Jointly</h4>
+        <!-- Both Work -->
+        <div class="col-md-6">
+          <label>Both Work?</label><br />
+          <input type="checkbox" id="filing_jointly_both_work" name="filing_jointly_both_work" />
+        </div>
 
-          <!-- Annual Income -->
-          <div class="col-md-6">
-            <label for="gross_income_married">Gross Income</label>
-            <input type="number" class="form-control" id="gross_income_married"
-              name="gross_income_married" placeholder="0" />
-            <small class="form-text text-muted">
-              Please enter the amount from your latest paystub from your current
-              job, or the last paystub from your previous job.
-            </small>
+        <!-- Income Type -->
+        <div class="col-md-6">
+          <label>Income Type</label>
+          <select class="form-select" id="income_type_married" name="income_type">
+            <option value="salary">Salary</option>
+            <option value="hourly">Hourly</option>
+            <option value="self-employed">Self-Employed Income</option>
+          </select>
+        </div>
+
+        <!-- Income Period -->
+        <div class="col-md-6">
+          <label>Income Period</label>
+          <select class="form-select" id="income_period_married" name="income_period">
+            <option value="full_year">Full Year</option>
+            <option value="partial_year">Partial Year</option>
+          </select>
+        </div>
+
+        <!-- Job Incomes -->
+        <div class="col-md-12">
+          <label>Job Incomes</label>
+          <div id="jobIncomesWrapper"></div>
+          <button type="button" class="btn btn-sm btn-primary mt-2" onclick="addJobIncome('jobIncomesWrapperMarried')">+
+            Add
+            Job</button>
+          <div id="jobIncomesWrapperMarried"></div>
+        </div>
+
+        <!-- Hidden fixed value -->
+        <input type="hidden" id="filing_status_married" name="filing_status" value="marriedJointly" />
+
+        <!-- Checkpoint -->
+        <div class="col-md-12">
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="checkpointMarried" name="checkpointMarried" />
+            <label class="form-check-label" for="checkpointMarried">
+              Confirm all data entered is accurate
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!--End Fields for Married -->
+
+      <!-- Fields for HouseHoldFields -->
+      <div id="HeadofhouseholdFields" class="row g-3 hidden">
+
+        <h4 style="text-align: center;">Head Of household</h4>
+
+        <!-- Annual Income -->
+        <div class="col-md-6">
+          <label for="gross_income_hoh">Gross Income</label>
+          <input type="number" class="form-control" id="gross_income_hoh" name="gross_income_hoh" placeholder="0" />
+          <small class="form-text text-muted">
+            Please enter the amount from your latest paystub from your current
+            job, or the last paystub from your previous job.
+          </small>
+        </div>
+
+        <!-- Pay Periods -->
+        <div class="col-md-6">
+          <label for="pay_frequency_hoh">Pay Frequency</label>
+          <select class="form-control" id="pay_frequency_hoh" name="pay_frequency_hoh">
+            <option value="12">Monthly</option>
+            <option value="26">Bi-Weekly</option>
+            <option value="52">Weekly</option>
+          </select>
+        </div>
+
+        <!-- Current Withholding -->
+        <div class="col-md-6">
+          <label for="current_federal_withholding_hoh">Current Federal Income
+            Tax
+            Withholding</label>
+          <input type="number" class="form-control" id="current_federal_withholding_hoh"
+            name="current_federal_withholding_hoh" placeholder="0" />
+        </div>
+
+        <!-- Additional Withholding -->
+        <div class="col-md-6">
+          <label>Additional Withholding</label>
+          <input type="number" class="form-control" id="additional_withholding_hoh" name="additional_withholding"
+            placeholder="0" />
+        </div>
+
+        <!-- Dependents -->
+        <div class="col-md-6">
+          <label>Dependents</label>
+          <input type="number" class="form-control" id="dependents_hoh" name="dependents" placeholder="0" />
+        </div>
+
+        <!-- Deductions Options -->
+        <div class="col-md-12">
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="use_itemized_deductions_hoh"
+              name="use_itemized_deductions_hoh" />
+            <label class="form-check-label" for="use_itemized_deductions_hoh">
+              Use Itemized Deductions
+            </label>
           </div>
 
-          <!-- Spouse Income -->
-          <div class="col-md-6">
-            <label>Spouse Income</label>
-            <input
-              type="number"
-              class="form-control"
-              id="spouse_income"
-              name="spouse_income"
-              value="0" />
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="is_nonresident_hoh" name="is_nonresident_hoh" />
+            <label class="form-check-label" for="is_nonresident_hoh">
+              Non-Resident
+            </label>
           </div>
 
-          <!-- Pay Periods -->
-          <div class="col-md-6">
-            <label for="pay_frequency_married">Pay Frequency</label>
-            <select class="form-control" id="pay_frequency_married"
-              name="pay_frequency_married">
-              <option value="12">Monthly</option>
-              <option value="26">Bi-Weekly</option>
-              <option value="52">Weekly</option>
-            </select>
-          </div>
-
-          <!-- Current Withholding -->
-          <div class="col-md-6">
-            <label for="current_federal_withholding_married">Current Federal
-              Income Tax
-              Withholding</label>
-            <input type="number" class="form-control"
-              id="current_federal_withholding_married"
-              name="current_federal_withholding_married" placeholder="0" />
-          </div>
-
-          <!-- Additional Withholding -->
-          <div class="col-md-6">
-            <label>Additional Withholding</label>
-            <input
-              type="number"
-              class="form-control"
-              id="additional_withholding_married"
-              name="additional_withholding"
-              value="0" />
-          </div>
-
-          <!-- Dependents -->
-          <div class="col-md-6">
-            <label>Dependents</label>
-            <input
-              type="number"
-              class="form-control"
-              id="dependents_married"
-              name="dependents"
-              value="0" />
-          </div>
-
-          <!-- Deductions Options -->
-          <div class="col-md-12">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="use_itemized_deductions_married"
-                name="use_itemized_deductions_married" />
-              <label class="form-check-label"
-                for="use_itemized_deductions_married">
-                Use Itemized Deductions
-              </label>
-            </div>
-
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="is_nonresident_married"
-                name="is_nonresident_married" />
-              <label class="form-check-label" for="is_nonresident_married">
-                Non-Resident
-              </label>
-            </div>
-
-            <!-- State Income Tax Paid (Non-Resident Only) -->
-            <div class="col-md-6" id="stateIncomeTaxWrapper_married"
-              style="display: none;">
-              <label for="state_income_tax_paid_married">State Income Tax
-                Paid</label>
-              <input type="number" class="form-control"
-                id="state_income_tax_paid_married"
-                name="state_income_tax_paid_married" placeholder="0" />
-            </div>
-          </div>
-
-          <!-- Other Income -->
-          <div class="col-md-6">
-            <label>Other Income</label>
-            <input
-              type="number"
-              class="form-control"
-              id="other_income_married"
-              name="other_income"
-              value="0" />
-          </div>
-
-          <!-- Deductions -->
-          <div class="col-md-6">
-            <!-- <label>Deductions</label> -->
-            <input
-              type="number" hidden
-              class="form-control"
-              id="deductions_married"
-              name="deductions"
-              value="31500" />
-          </div>
-
-          <!-- Both Work -->
-          <div class="col-md-6">
-            <label>Both Work?</label><br />
-            <input
-              type="checkbox"
-              id="filing_jointly_both_work"
-              name="filing_jointly_both_work" />
-          </div>
-
-          <!-- Income Type -->
-          <div class="col-md-6">
-            <label>Income Type</label>
-            <select class="form-select" id="income_type_married"
-              name="income_type">
-              <option value="salary">Salary</option>
-              <option value="hourly">Hourly</option>
-              <option value="self-employed">Self-Employed Income</option>
-            </select>
-          </div>
-
-          <!-- Income Period -->
-          <div class="col-md-6">
-            <label>Income Period</label>
-            <select class="form-select" id="income_period_married"
-              name="income_period">
-              <option value="full_year">Full Year</option>
-              <option value="partial_year">Partial Year</option>
-            </select>
-          </div>
-
-          <!-- Job Incomes -->
-          <div class="col-md-12">
-            <label>Job Incomes</label>
-            <div id="jobIncomesWrapper"></div>
-            <button type="button" class="btn btn-sm btn-primary mt-2"
-              onclick="addJobIncome('jobIncomesWrapperMarried')">+ Add
-              Job</button>
-            <div id="jobIncomesWrapperMarried"></div>
-          </div>
-
-          <!-- Hidden fixed value -->
-          <input type="hidden" id="filing_status_married" name="filing_status"
-            value="marriedJointly" />
-
-          <!-- Checkpoint -->
-          <div class="col-md-12">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="checkpointMarried" name="checkpointMarried" />
-              <label class="form-check-label" for="checkpointMarried">
-                Confirm all data entered is accurate
-              </label>
-            </div>
+          <!-- State Income Tax Paid (Non-Resident Only) -->
+          <div class="col-md-6" id="stateIncomeTaxWrapper_hoh" style="display: none;">
+            <label for="state_income_tax_paid_hoh">State Income Tax
+              Paid</label>
+            <input type="number" class="form-control" id="state_income_tax_paid_hoh" name="state_income_tax_paid_hoh"
+              placeholder="0" />
           </div>
         </div>
 
-        <!--End Fields for Married -->
+        <!-- Other Income -->
+        <div class="col-md-6">
+          <label>Other Income</label>
+          <input type="number" class="form-control" id="other_income_hoh" name="other_income" placeholder="0" />
+        </div>
 
-        <!-- Fields for HouseHoldFields -->
-        <div id="HeadofhouseholdFields" class="row g-3 hidden">
+        <!-- Deductions -->
+        <div class="col-md-6">
+          <!-- <label>Deductions</label> -->
+          <input type="number" hidden class="form-control" id="deductions_hoh" name="deductions" placeholder="0"
+            value="23625" />
+        </div>
 
-          <h4 style="text-align: center;">Head Of household</h4>
+        <!-- Both Work? -->
+        <div class="col-md-6">
+          <label>Both Work?</label><br />
+          <input type="checkbox" id="filing_jointly_both_work_hoh" name="filing_jointly_both_work" />
+        </div>
 
-          <!-- Annual Income -->
-          <div class="col-md-6">
-            <label for="gross_income_hoh">Gross Income</label>
-            <input type="number" class="form-control" id="gross_income_hoh"
-              name="gross_income_hoh" placeholder="0" />
-            <small class="form-text text-muted">
-              Please enter the amount from your latest paystub from your current
-              job, or the last paystub from your previous job.
-            </small>
+        <!-- Spouse Income -->
+        <div class="col-md-6">
+          <label>Spouse Income</label>
+          <input type="number" class="form-control" id="spouse_income_hoh" name="spouse_income" placeholder="0" />
+        </div>
+
+        <!-- Income Type -->
+        <div class="col-md-6">
+          <label>Income Type</label>
+          <select class="form-select" id="income_type_hoh" name="income_type">
+            <option value="salary">Salary</option>
+            <option value="hourly">Hourly</option>
+            <option value="self-employed">Self-Employed Income</option>
+          </select>
+        </div>
+
+        <!-- Income Period -->
+        <div class="col-md-6">
+          <label>Income Period</label>
+          <select class="form-select" id="income_period_hoh" name="income_period">
+            <option value="full_year">Full Year</option>
+            <option value="partial_year">Partial Year</option>
+          </select>
+        </div>
+
+        <!-- Job Incomes -->
+        <div class="col-md-12">
+          <label>Job Incomes</label>
+          <div id="jobIncomesWrapper"></div>
+          <button type="button" class="btn btn-sm btn-primary mt-2"
+            onclick="addJobIncome('jobIncomesheadofhousehold')">+ Add
+            Job</button>
+          <div id="jobIncomesheadofhousehold"></div>
+        </div>
+
+        <!-- Hidden fixed value -->
+        <input type="hidden" id="filing_status_hoh" name="filing_status" value="headOfHousehold" />
+
+        <!-- Confirm -->
+        <div class="col-md-12">
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="checkpointHoh" name="checkpointHoh" />
+            <label class="form-check-label" for="checkpointHoh">
+              Confirm all data entered is accurate
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- End Fields for HouseHoldFields -->
+      <!-- Qualifying Widower Fields -->
+      <div id="QualifyingWidowerFields" class="row g-3 hidden">
+
+        <h4 style="text-align: center;">Qualifying Widower</h4>
+
+        <div class="col-md-6">
+          <label for="gross_income_qw">Gross Income</label>
+          <input type="number" class="form-control" id="gross_income_qw" name="gross_income_qw" placeholder="0" />
+          <small class="form-text text-muted">
+            Please enter the amount from your latest paystub from your current
+            job, or the last paystub from your previous job.
+          </small>
+        </div>
+
+        <div class="col-md-6">
+          <label for="pay_frequency_qw">Pay Frequency</label>
+          <select class="form-control" id="pay_frequency_qw" name="pay_frequency_qw">
+            <option value="12">Monthly</option>
+            <option value="26">Bi-Weekly</option>
+            <option value="52">Weekly</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label for="current_federal_withholding_qw">Current Federal Income
+            Tax
+            Withholding</label>
+          <input type="number" class="form-control" id="current_federal_withholding_qw"
+            name="current_federal_withholding_qw" placeholder="0" />
+        </div>
+
+        <div class="col-md-6">
+          <label>Additional Withholding</label>
+          <input type="number" class="form-control" id="additional_withholding_qw" placeholder="0" />
+        </div>
+
+        <div class="col-md-6">
+          <label>Dependents</label>
+          <input type="number" class="form-control" id="dependents_qw" placeholder="0" />
+        </div>
+
+        <!-- Deductions Options -->
+        <div class="col-md-12">
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="use_itemized_deductions_qw"
+              name="use_itemized_deductions_qw" />
+            <label class="form-check-label" for="use_itemized_deductions_qw">
+              Use Itemized Deductions
+            </label>
           </div>
 
-          <!-- Pay Periods -->
-          <div class="col-md-6">
-            <label for="pay_frequency_hoh">Pay Frequency</label>
-            <select class="form-control" id="pay_frequency_hoh"
-              name="pay_frequency_hoh">
-              <option value="12">Monthly</option>
-              <option value="26">Bi-Weekly</option>
-              <option value="52">Weekly</option>
-            </select>
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="is_nonresident_qw" name="is_nonresident_qw" />
+            <label class="form-check-label" for="is_nonresident_qw">
+              Non-Resident
+            </label>
           </div>
 
-          <!-- Current Withholding -->
-          <div class="col-md-6">
-            <label for="current_federal_withholding_hoh">Current Federal Income
-              Tax
-              Withholding</label>
-            <input type="number" class="form-control"
-              id="current_federal_withholding_hoh"
-              name="current_federal_withholding_hoh" placeholder="0" />
-          </div>
-
-          <!-- Additional Withholding -->
-          <div class="col-md-6">
-            <label>Additional Withholding</label>
-            <input
-              type="number"
-              class="form-control"
-              id="additional_withholding_hoh"
-              name="additional_withholding"
+          <!-- State Income Tax Paid (Non-Resident Only) -->
+          <div class="col-md-6" id="stateIncomeTaxWrapper" style="display: none;">
+            <label for="state_income_tax_paid">State Income Tax Paid</label>
+            <input type="number" class="form-control" id="state_income_tax_paid" name="state_income_tax_paid"
               placeholder="0" />
-          </div>
-
-          <!-- Dependents -->
-          <div class="col-md-6">
-            <label>Dependents</label>
-            <input
-              type="number"
-              class="form-control"
-              id="dependents_hoh"
-              name="dependents"
-              placeholder="0" />
-          </div>
-
-          <!-- Deductions Options -->
-          <div class="col-md-12">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="use_itemized_deductions_hoh"
-                name="use_itemized_deductions_hoh" />
-              <label class="form-check-label" for="use_itemized_deductions_hoh">
-                Use Itemized Deductions
-              </label>
-            </div>
-
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="is_nonresident_hoh"
-                name="is_nonresident_hoh" />
-              <label class="form-check-label" for="is_nonresident_hoh">
-                Non-Resident
-              </label>
-            </div>
-
-            <!-- State Income Tax Paid (Non-Resident Only) -->
-            <div class="col-md-6" id="stateIncomeTaxWrapper_hoh"
-              style="display: none;">
-              <label for="state_income_tax_paid_hoh">State Income Tax
-                Paid</label>
-              <input type="number" class="form-control"
-                id="state_income_tax_paid_hoh"
-                name="state_income_tax_paid_hoh" placeholder="0" />
-            </div>
-          </div>
-
-          <!-- Other Income -->
-          <div class="col-md-6">
-            <label>Other Income</label>
-            <input
-              type="number"
-              class="form-control"
-              id="other_income_hoh"
-              name="other_income"
-              placeholder="0" />
-          </div>
-
-          <!-- Deductions -->
-          <div class="col-md-6">
-            <!-- <label>Deductions</label> -->
-            <input
-              type="number" hidden
-              class="form-control"
-              id="deductions_hoh"
-              name="deductions"
-              placeholder="0" value="23625" />
-          </div>
-
-          <!-- Both Work? -->
-          <div class="col-md-6">
-            <label>Both Work?</label><br />
-            <input
-              type="checkbox"
-              id="filing_jointly_both_work_hoh"
-              name="filing_jointly_both_work" />
-          </div>
-
-          <!-- Spouse Income -->
-          <div class="col-md-6">
-            <label>Spouse Income</label>
-            <input
-              type="number"
-              class="form-control"
-              id="spouse_income_hoh"
-              name="spouse_income"
-              placeholder="0" />
-          </div>
-
-          <!-- Income Type -->
-          <div class="col-md-6">
-            <label>Income Type</label>
-            <select class="form-select" id="income_type_hoh" name="income_type">
-              <option value="salary">Salary</option>
-              <option value="hourly">Hourly</option>
-              <option value="self-employed">Self-Employed Income</option>
-            </select>
-          </div>
-
-          <!-- Income Period -->
-          <div class="col-md-6">
-            <label>Income Period</label>
-            <select class="form-select" id="income_period_hoh"
-              name="income_period">
-              <option value="full_year">Full Year</option>
-              <option value="partial_year">Partial Year</option>
-            </select>
-          </div>
-
-          <!-- Job Incomes -->
-          <div class="col-md-12">
-            <label>Job Incomes</label>
-            <div id="jobIncomesWrapper"></div>
-            <button type="button" class="btn btn-sm btn-primary mt-2"
-              onclick="addJobIncome('jobIncomesheadofhousehold')">+ Add
-              Job</button>
-            <div id="jobIncomesheadofhousehold"></div>
-          </div>
-
-          <!-- Hidden fixed value -->
-          <input type="hidden" id="filing_status_hoh" name="filing_status"
-            value="headOfHousehold" />
-
-          <!-- Confirm -->
-          <div class="col-md-12">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox" id="checkpointHoh"
-                name="checkpointHoh" />
-              <label class="form-check-label" for="checkpointHoh">
-                Confirm all data entered is accurate
-              </label>
-            </div>
           </div>
         </div>
 
-        <!-- End Fields for HouseHoldFields -->
-        <!-- Qualifying Widower Fields -->
-        <div id="QualifyingWidowerFields" class="row g-3 hidden">
-
-          <h4 style="text-align: center;">Qualifying Widower</h4>
-
-          <div class="col-md-6">
-            <label for="gross_income_qw">Gross Income</label>
-            <input type="number" class="form-control" id="gross_income_qw"
-              name="gross_income_qw" placeholder="0" />
-            <small class="form-text text-muted">
-              Please enter the amount from your latest paystub from your current
-              job, or the last paystub from your previous job.
-            </small>
-          </div>
-
-          <div class="col-md-6">
-            <label for="pay_frequency_qw">Pay Frequency</label>
-            <select class="form-control" id="pay_frequency_qw"
-              name="pay_frequency_qw">
-              <option value="12">Monthly</option>
-              <option value="26">Bi-Weekly</option>
-              <option value="52">Weekly</option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label for="current_federal_withholding_qw">Current Federal Income
-              Tax
-              Withholding</label>
-            <input type="number" class="form-control"
-              id="current_federal_withholding_qw"
-              name="current_federal_withholding_qw" placeholder="0" />
-          </div>
-
-          <div class="col-md-6">
-            <label>Additional Withholding</label>
-            <input type="number" class="form-control"
-              id="additional_withholding_qw" placeholder="0" />
-          </div>
-
-          <div class="col-md-6">
-            <label>Dependents</label>
-            <input type="number" class="form-control" id="dependents_qw"
-              placeholder="0" />
-          </div>
-
-          <!-- Deductions Options -->
-          <div class="col-md-12">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="use_itemized_deductions_qw"
-                name="use_itemized_deductions_qw" />
-              <label class="form-check-label" for="use_itemized_deductions_qw">
-                Use Itemized Deductions
-              </label>
-            </div>
-
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="is_nonresident_qw"
-                name="is_nonresident_qw" />
-              <label class="form-check-label" for="is_nonresident_qw">
-                Non-Resident
-              </label>
-            </div>
-
-            <!-- State Income Tax Paid (Non-Resident Only) -->
-            <div class="col-md-6" id="stateIncomeTaxWrapper"
-              style="display: none;">
-              <label for="state_income_tax_paid">State Income Tax Paid</label>
-              <input type="number" class="form-control"
-                id="state_income_tax_paid"
-                name="state_income_tax_paid" placeholder="0" />
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <label>Other Income</label>
-            <input type="number" class="form-control" id="other_income_qw"
-              placeholder="0" />
-          </div>
-
-          <div class="col-md-6">
-            <!-- <label>Deductions</label> -->
-            <input type="number" hidden value="31500" class="form-control"
-              id="deductions_qw"
-              placeholder="0" />
-          </div>
-
-          <div class="col-md-6">
-            <label>Both Work?</label>
-            <input type="checkbox" class="form-check-input"
-              id="filing_jointly_both_work_qw" />
-          </div>
-
-          <div class="col-md-6">
-            <label>Spouse Income</label>
-            <input type="number" class="form-control" id="spouse_income_qw"
-              placeholder="0" />
-          </div>
-
-          <div class="col-md-6">
-            <label>Income Type</label>
-            <select class="form-control" id="income_type_qw">
-              <option value="salary">Salary</option>
-              <option value="hourly">Hourly</option>
-              <option value="self-employed">Self-Employed</option>
-            </select>
-          </div>
-
-          <div class="col-md-6">
-            <label>Income Period</label>
-            <select class="form-control" id="income_period_qw">
-              <option value="full_year">Full Year</option>
-              <option value="partial_year">Partial Year</option>
-            </select>
-          </div>
-
-          <div class="col-md-12">
-            <label>Job Incomes</label>
-            <button type="button" class="btn btn-sm btn-primary mt-2"
-              onclick="addJobIncome('jobIncomesqualifyingwidower')">+ Add
-              Job</button>
-            <div id="jobIncomesqualifyingwidower_qw"></div>
-          </div>
-
+        <div class="col-md-6">
+          <label>Other Income</label>
+          <input type="number" class="form-control" id="other_income_qw" placeholder="0" />
         </div>
 
-        <!--End Qualifying Widower Fields -->
-
-        <!-- Fields for MarriedFilingSepratelyFields -->
-
-        <div id="MarriedFilingSeparatelyFields" class="row g-3 hidden">
-
-          <h4 style="text-align: center;">Married Separeately</h4>
-
-          <!-- Annual Income -->
-          <div class="col-md-6">
-            <label for="gross_income">Gross Income</label>
-            <input type="number" class="form-control" id="gross_income_mfs"
-              name="gross_income_mfs" placeholder="0" />
-            <small class="form-text text-muted">
-              Please enter the amount from your latest paystub from your current
-              job, or the last paystub from your previous job.
-            </small>
-          </div>
-
-          <!-- Pay Periods -->
-          <div class="col-md-6">
-            <label for="pay_frequency_mfs">Pay Frequency</label>
-            <select class="form-control" id="pay_frequency_mfs"
-              name="pay_frequency_mfs">
-              <option value="12">Monthly</option>
-              <option value="26">Bi-Weekly</option>
-              <option value="52">Weekly</option>
-            </select>
-          </div>
-
-          <!-- Current Withholding -->
-          <div class="col-md-6">
-            <label for="current_federal_withholding_mfs">Current Federal Income
-              Tax
-              Withholding</label>
-            <input type="number" class="form-control"
-              id="current_federal_withholding_mfs"
-              name="current_federal_withholding_mfs" placeholder="0" />
-          </div>
-
-          <!-- Additional Withholding -->
-          <div class="col-md-6">
-            <label>Additional Withholding</label>
-            <input type="number" class="form-control"
-              id="additional_withholding_mfs" name="additional_withholding"
-              placeholder="0" />
-          </div>
-
-          <!-- Dependents -->
-          <div class="col-md-6">
-            <label>Dependents</label>
-            <input type="number" class="form-control" id="dependents_mfs"
-              name="dependents" placeholder="0" />
-          </div>
-
-          <!-- Deductions Options -->
-          <div class="col-md-12">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="use_itemized_deductions_mfs"
-                name="use_itemized_deductions_mfs" />
-              <label class="form-check-label" for="use_itemized_deductions_mfs">
-                Use Itemized Deductions
-              </label>
-            </div>
-
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox"
-                id="is_nonresident_mfs"
-                name="is_nonresident_mfs" />
-              <label class="form-check-label" for="is_nonresident_mfs">
-                Non-Resident
-              </label>
-            </div>
-
-            <!-- State Income Tax Paid (Non-Resident Only) -->
-            <div class="col-md-6" id="stateIncomeTaxWrapper_mfs"
-              style="display: none;">
-              <label for="state_income_tax_paid_mfs">State Income Tax
-                Paid</label>
-              <input type="number" class="form-control"
-                id="state_income_tax_paid_mfs"
-                name="state_income_tax_paid_mfs" placeholder="0" />
-            </div>
-          </div>
-
-          <!-- Other Income -->
-          <div class="col-md-6">
-            <label>Other Income</label>
-            <input type="number" class="form-control" id="other_income_mfs"
-              name="other_income" placeholder="0" />
-          </div>
-
-          <!-- Deductions -->
-          <div class="col-md-6">
-            <!-- <label>Deductions</label> -->
-            <input type="number" class="form-control" id="deductions_mfs"
-              name="deductions" placeholder="0" value="15750" hidden />
-          </div>
-
-          <!-- Filing Jointly Both Work? -->
-          <div class="col-md-6">
-            <label>Both Work?</label>
-            <input type="checkbox" class="form-check-input"
-              id="filing_jointly_both_work_mfs"
-              name="filing_jointly_both_work" />
-          </div>
-
-          <!-- Spouse Income -->
-          <div class="col-md-6">
-            <label>Spouse Income</label>
-            <input type="number" class="form-control" id="spouse_income_mfs"
-              name="spouse_income" placeholder="0" />
-          </div>
-
-          <!-- Income Type -->
-          <div class="col-md-6">
-            <label>Income Type</label>
-            <select class="form-control" id="income_type_mfs"
-              name="income_type">
-              <option value="salary">Salary</option>
-              <option value="hourly">Hourly</option>
-              <option value="self-employed">Self-Employed Income</option>
-            </select>
-          </div>
-
-          <!-- Income Period -->
-          <div class="col-md-6">
-            <label>Income Period</label>
-            <select class="form-control" id="income_period_mfs"
-              name="income_period">
-              <option value="full_year">Full Year</option>
-              <option value="partial_year">Partial Year</option>
-            </select>
-          </div>
-
-          <!-- Job Incomes -->
-          <div class="col-md-12">
-            <label>Job Incomes (Multiple Allowed)</label>
-            <div id="jobIncomesWrapper"></div>
-            <button type="button" class="btn btn-sm btn-primary mt-2"
-              onclick="addJobIncome('jobIncomesmarriedsepperatly')">+ Add
-              Job</button>
-            <div id="jobIncomesmarriedsepperatly"></div>
-          </div>
-
-          <!-- Hidden fixed value -->
-          <input type="hidden" id="filing_status_mfs" name="filing_status"
-            value="marriedSeparately" />
-
-          <!-- Confirm -->
-          <div class="col-md-12">
-            <div class="form-check mt-2">
-              <input class="form-check-input" type="checkbox" id="checkpointMFS"
-                name="checkpointMFS" />
-              <label class="form-check-label" for="checkpointMFS">
-                Confirm all data entered is accurate
-              </label>
-            </div>
-          </div>
-
+        <div class="col-md-6">
+          <!-- <label>Deductions</label> -->
+          <input type="number" hidden value="31500" class="form-control" id="deductions_qw" placeholder="0" />
         </div>
 
-        <!-- End Fields for MarriedFilingSepratelyFields -->
+        <div class="col-md-6">
+          <label>Both Work?</label>
+          <input type="checkbox" class="form-check-input" id="filing_jointly_both_work_qw" />
+        </div>
 
-        <div class="col-12 mt-3">
-          <button type="button" id="calculateBtn" class="btn btn-success w-100">
-            Calculate
-          </button>
+        <div class="col-md-6">
+          <label>Spouse Income</label>
+          <input type="number" class="form-control" id="spouse_income_qw" placeholder="0" />
+        </div>
+
+        <div class="col-md-6">
+          <label>Income Type</label>
+          <select class="form-control" id="income_type_qw">
+            <option value="salary">Salary</option>
+            <option value="hourly">Hourly</option>
+            <option value="self-employed">Self-Employed</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label>Income Period</label>
+          <select class="form-control" id="income_period_qw">
+            <option value="full_year">Full Year</option>
+            <option value="partial_year">Partial Year</option>
+          </select>
+        </div>
+
+        <div class="col-md-12">
+          <label>Job Incomes</label>
+          <button type="button" class="btn btn-sm btn-primary mt-2"
+            onclick="addJobIncome('jobIncomesqualifyingwidower')">+ Add
+            Job</button>
+          <div id="jobIncomesqualifyingwidower_qw"></div>
         </div>
 
       </div>
 
-      <!-- Redesigned Analysis Section -->
-      <div id="result" class="result hidden mt-5">
-        <div class="profile-card card shadow-sm border-0 p-4">
-          <h3 class="text-center mb-4 fw-semibold">2026 Tax Analysis</h3>
+      <!--End Qualifying Widower Fields -->
 
-          <!-- Summary Cards -->
-          <div class="row g-4 mb-3">
-            <div class="col-md-4">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Annual Tax Liability</h6>
-                <p id="annual_tax_liability"
-                  class="fs-4 fw-bold text-primary mb-0">$0.00</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Current Annual Withholding</h6>
-                <p id="current_annual_withholding"
-                  class="fs-4 fw-bold text-success mb-0">$0.00</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card border-0 shadow-sm text-center p-3 bg-light">
-                <h6 class="text-muted">Difference</h6>
-                <p id="difference"
-                  class="fs-4 fw-bold text-danger mb-0">+$0.00</p>
-              </div>
-            </div>
+      <!-- Fields for MarriedFilingSepratelyFields -->
+
+      <div id="MarriedFilingSeparatelyFields" class="row g-3 hidden">
+
+        <h4 style="text-align: center;">Married Separeately</h4>
+
+        <!-- Annual Income -->
+        <div class="col-md-6">
+          <label for="gross_income">Gross Income</label>
+          <input type="number" class="form-control" id="gross_income_mfs" name="gross_income_mfs" placeholder="0" />
+          <small class="form-text text-muted">
+            Please enter the amount from your latest paystub from your current
+            job, or the last paystub from your previous job.
+          </small>
+        </div>
+
+        <!-- Pay Periods -->
+        <div class="col-md-6">
+          <label for="pay_frequency_mfs">Pay Frequency</label>
+          <select class="form-control" id="pay_frequency_mfs" name="pay_frequency_mfs">
+            <option value="12">Monthly</option>
+            <option value="26">Bi-Weekly</option>
+            <option value="52">Weekly</option>
+          </select>
+        </div>
+
+        <!-- Current Withholding -->
+        <div class="col-md-6">
+          <label for="current_federal_withholding_mfs">Current Federal Income
+            Tax
+            Withholding</label>
+          <input type="number" class="form-control" id="current_federal_withholding_mfs"
+            name="current_federal_withholding_mfs" placeholder="0" />
+        </div>
+
+        <!-- Additional Withholding -->
+        <div class="col-md-6">
+          <label>Additional Withholding</label>
+          <input type="number" class="form-control" id="additional_withholding_mfs" name="additional_withholding"
+            placeholder="0" />
+        </div>
+
+        <!-- Dependents -->
+        <div class="col-md-6">
+          <label>Dependents</label>
+          <input type="number" class="form-control" id="dependents_mfs" name="dependents" placeholder="0" />
+        </div>
+
+        <!-- Deductions Options -->
+        <div class="col-md-12">
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="use_itemized_deductions_mfs"
+              name="use_itemized_deductions_mfs" />
+            <label class="form-check-label" for="use_itemized_deductions_mfs">
+              Use Itemized Deductions
+            </label>
           </div>
 
-          <!-- Recommendation Cards -->
-          <div class="row g-4 mb-3">
-            <div class="col-md-4">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Recommended Per Period</h6>
-                <p id="recommended_per_period"
-                  class="fs-5 fw-bold mb-1">$0.00</p>
-                <small id="pay_period_label"
-                  class="text-secondary">(Bi-weekly)</small>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Adjustment Needed</h6>
-                <p id="adjustment"
-                  class="fs-5 fw-bold text-danger mb-0">$0.00</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Severity</h6>
-                <p id="severity_level"
-                  class="fs-5 fw-bold text-uppercase text-danger mb-0">CRITICAL</p>
-              </div>
-            </div>
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="is_nonresident_mfs" name="is_nonresident_mfs" />
+            <label class="form-check-label" for="is_nonresident_mfs">
+              Non-Resident
+            </label>
           </div>
 
-          <!-- Income Details -->
-          <div class="row g-4 mb-3">
-            <div class="col-md-4">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Taxable Income</h6>
-                <p id="taxable_income" class="fs-5 fw-bold mb-0">$0.00</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Effective Tax Rate</h6>
-                <p id="effective_tax_rate" class="fs-5 fw-bold mb-0">0.00%</p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Marginal Tax Rate</h6>
-                <p id="marginal_tax_rate" class="fs-5 fw-bold mb-0">0.00%</p>
-              </div>
+          <!-- State Income Tax Paid (Non-Resident Only) -->
+          <div class="col-md-6" id="stateIncomeTaxWrapper_mfs" style="display: none;">
+            <label for="state_income_tax_paid_mfs">State Income Tax
+              Paid</label>
+            <input type="number" class="form-control" id="state_income_tax_paid_mfs" name="state_income_tax_paid_mfs"
+              placeholder="0" />
+          </div>
+        </div>
+
+        <!-- Other Income -->
+        <div class="col-md-6">
+          <label>Other Income</label>
+          <input type="number" class="form-control" id="other_income_mfs" name="other_income" placeholder="0" />
+        </div>
+
+        <!-- Deductions -->
+        <div class="col-md-6">
+          <!-- <label>Deductions</label> -->
+          <input type="number" class="form-control" id="deductions_mfs" name="deductions" placeholder="0" value="15750"
+            hidden />
+        </div>
+
+        <!-- Filing Jointly Both Work? -->
+        <div class="col-md-6">
+          <label>Both Work?</label>
+          <input type="checkbox" class="form-check-input" id="filing_jointly_both_work_mfs"
+            name="filing_jointly_both_work" />
+        </div>
+
+        <!-- Spouse Income -->
+        <div class="col-md-6">
+          <label>Spouse Income</label>
+          <input type="number" class="form-control" id="spouse_income_mfs" name="spouse_income" placeholder="0" />
+        </div>
+
+        <!-- Income Type -->
+        <div class="col-md-6">
+          <label>Income Type</label>
+          <select class="form-control" id="income_type_mfs" name="income_type">
+            <option value="salary">Salary</option>
+            <option value="hourly">Hourly</option>
+            <option value="self-employed">Self-Employed Income</option>
+          </select>
+        </div>
+
+        <!-- Income Period -->
+        <div class="col-md-6">
+          <label>Income Period</label>
+          <select class="form-control" id="income_period_mfs" name="income_period">
+            <option value="full_year">Full Year</option>
+            <option value="partial_year">Partial Year</option>
+          </select>
+        </div>
+
+        <!-- Job Incomes -->
+        <div class="col-md-12">
+          <label>Job Incomes (Multiple Allowed)</label>
+          <div id="jobIncomesWrapper"></div>
+          <button type="button" class="btn btn-sm btn-primary mt-2"
+            onclick="addJobIncome('jobIncomesmarriedsepperatly')">+ Add
+            Job</button>
+          <div id="jobIncomesmarriedsepperatly"></div>
+        </div>
+
+        <!-- Hidden fixed value -->
+        <input type="hidden" id="filing_status_mfs" name="filing_status" value="marriedSeparately" />
+
+        <!-- Confirm -->
+        <div class="col-md-12">
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" id="checkpointMFS" name="checkpointMFS" />
+            <label class="form-check-label" for="checkpointMFS">
+              Confirm all data entered is accurate
+            </label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- End Fields for MarriedFilingSepratelyFields -->
+
+      <div class="col-12 mt-3">
+        <button type="button" id="calculateBtn" class="btn btn-success w-100">
+          Calculate
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Redesigned Analysis Section -->
+    <div id="result" class="result hidden mt-5">
+      <div class="profile-card card shadow-sm border-0 p-4">
+        <h3 class="text-center mb-4 fw-semibold">2026 Tax Analysis</h3>
+
+        <!-- Summary Cards -->
+        <div class="row g-4 mb-3">
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Annual Tax Liability</h6>
+              <p id="annual_tax_liability" class="fs-4 fw-bold text-primary mb-0">$0.00</p>
             </div>
           </div>
-
-          <!-- More Info -->
-          <div class="row g-4 mb-3">
-            <div class="col-md-6">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Gross Income</h6>
-                <p id="gross_income" class="fs-5 fw-bold mb-0">$0.00</p>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Total Deductions</h6>
-                <p id="total_deductions" class="fs-5 fw-bold mb-0">$0.00</p>
-              </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Current Annual Withholding</h6>
+              <p id="current_annual_withholding" class="fs-4 fw-bold text-success mb-0">$0.00</p>
             </div>
           </div>
-
-          <div class="row g-4 mb-3">
-            <div class="col-md-6">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Federal Tax Before Credits</h6>
-                <p id="federal_tax_before_credits"
-                  class="fs-5 fw-bold mb-0">$0.00</p>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="card border-0 shadow-sm text-center p-3">
-                <h6 class="text-muted">Child Tax Credit Applied</h6>
-                <p id="child_tax_credit_applied"
-                  class="fs-5 fw-bold mb-0">$0.00</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Recommendation -->
-          <div class="row">
-            <div class="col-12">
-              <div id="recommendation"
-                class="alert alert-danger fw-bold text-center mb-0"></div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center p-3 bg-light">
+              <h6 class="text-muted">Difference</h6>
+              <p id="difference" class="fs-4 fw-bold text-danger mb-0">+$0.00</p>
             </div>
           </div>
         </div>
+
+        <!-- Recommendation Cards -->
+        <div class="row g-4 mb-3">
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Recommended Per Period</h6>
+              <p id="recommended_per_period" class="fs-5 fw-bold mb-1">$0.00</p>
+              <small id="pay_period_label" class="text-secondary">(Bi-weekly)</small>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Adjustment Needed</h6>
+              <p id="adjustment" class="fs-5 fw-bold text-danger mb-0">$0.00</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Severity</h6>
+              <p id="severity_level" class="fs-5 fw-bold text-uppercase text-danger mb-0">CRITICAL</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Income Details -->
+        <div class="row g-4 mb-3">
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Taxable Income</h6>
+              <p id="taxable_income" class="fs-5 fw-bold mb-0">$0.00</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Effective Tax Rate</h6>
+              <p id="effective_tax_rate" class="fs-5 fw-bold mb-0">0.00%</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Marginal Tax Rate</h6>
+              <p id="marginal_tax_rate" class="fs-5 fw-bold mb-0">0.00%</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- More Info -->
+        <div class="row g-4 mb-3">
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Gross Income</h6>
+              <p id="gross_income" class="fs-5 fw-bold mb-0">$0.00</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Total Deductions</h6>
+              <p id="total_deductions" class="fs-5 fw-bold mb-0">$0.00</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 mb-3">
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Federal Tax Before Credits</h6>
+              <p id="federal_tax_before_credits" class="fs-5 fw-bold mb-0">$0.00</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm text-center p-3">
+              <h6 class="text-muted">Child Tax Credit Applied</h6>
+              <p id="child_tax_credit_applied" class="fs-5 fw-bold mb-0">$0.00</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendation -->
+        <div class="row">
+          <div class="col-12">
+            <div id="recommendation" class="alert alert-danger fw-bold text-center mb-0"></div>
+          </div>
+        </div>
       </div>
-      <!-- Result -->
-      <!-- <div id="result" class="result hidden mt-5">
+    </div>
+    <!-- Result -->
+    <!-- <div id="result" class="result hidden mt-5">
         <h3 class="text-center mb-4">2026 Tax Analysis</h3>
 
         <div class="row text-center">
@@ -1156,22 +1016,21 @@
         </div>
       </div> -->
 
-    </div>
-    <!-- <script src="script.js"></script> -->
+  </div>
+  <!-- <script src="script.js"></script> -->
 
-    <!-- Bootstrap JS (Popper included) -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Bootstrap JS (Popper included) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-      let jobIndex = 0;
+  <script>
+    let jobIndex = 0;
 
-      function addJobIncome(wrapperId) {
-        const wrapper = document.getElementById(wrapperId);
-        if (!wrapper) return;
+    function addJobIncome(wrapperId) {
+      const wrapper = document.getElementById(wrapperId);
+      if (!wrapper) return;
 
-        const jobId = `job_${jobIndex++}`;
-        wrapper.insertAdjacentHTML("beforeend", `
+      const jobId = `job_${jobIndex++}`;
+      wrapper.insertAdjacentHTML("beforeend", `
           <div class="job-income border rounded p-2 mb-2" id="${jobId}">
             <div class="row g-2">
               <div class="col-md-4">
@@ -1189,263 +1048,270 @@
             </div>
           </div>
         `);
-      }
+    }
 
-      function removeJob(jobId) {
-        document.getElementById(jobId)?.remove();
-      }
+    function removeJob(jobId) {
+      document.getElementById(jobId)?.remove();
+    }
 
 
 
-     // Initialize Bootstrap modal
-      const filingStatusModal = new bootstrap.Modal(document.getElementById('filingStatusModal'));
+    // Initialize Bootstrap modal
+    const filingStatusModal = new bootstrap.Modal(document.getElementById('filingStatusModal'));
 
-      // Map filing options to form sections
-      const formSections = {
-        'Single Filer': 'singleFields',
-        'Married Filing Jointly': 'marriedFields',
-        'Married Filing Separately': 'MarriedFilingSeparatelyFields',
-        'Head of House Hold': 'HeadofhouseholdFields',
-        'Qualifying Widow(er)': 'QualifyingWidowerFields'
+    // Map filing options to form sections
+    const formSections = {
+      'Single Filer': 'singleFields',
+      'Married Filing Jointly': 'marriedFields',
+      'Married Filing Separately': 'MarriedFilingSeparatelyFields',
+      'Head of House Hold': 'HeadofhouseholdFields',
+      'Qualifying Widow(er)': 'QualifyingWidowerFields'
+    };
+
+    // Hide all form sections
+    function hideAllSections() {
+      Object.values(formSections).forEach(id => {
+        const section = document.getElementById(id);
+        if (section) section.classList.add('hidden');
+      });
+    }
+
+    // Show selected form section
+    function showSection(statusText) {
+      // Normalize text (trim + collapse spaces + lowercase)
+      const normalized = statusText.replace(/\s+/g, ' ').trim().toLowerCase();
+
+      // Create a lowercase key map for easy match
+      const normalizedMap = {
+        'single filer': 'singleFields',
+        'married filing jointly': 'marriedFields',
+        'married filing separately': 'MarriedFilingSeparatelyFields',
+        'head of house hold': 'HeadofhouseholdFields',
+        'qualifying widow(er)': 'QualifyingWidowerFields'
       };
 
-      // Hide all form sections
-      function hideAllSections() {
-        Object.values(formSections).forEach(id => {
-          const section = document.getElementById(id);
-          if (section) section.classList.add('hidden');
-        });
+      console.log("Selected status:", normalized);
+
+      hideAllSections();
+
+      const sectionId = normalizedMap[normalized];
+      console.log("Mapped sectionId:", sectionId);
+
+      if (sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) section.classList.remove('hidden');
       }
 
-      // Show selected form section
-      function showSection(statusText) {
-        // Normalize text (trim + collapse spaces + lowercase)
-        const normalized = statusText.replace(/\s+/g, ' ').trim().toLowerCase();
+      const formContainer = document.getElementById('custom-form');
+      if (formContainer) formContainer.classList.remove('hidden');
+    }
 
-        // Create a lowercase key map for easy match
-        const normalizedMap = {
-          'single filer': 'singleFields',
-          'married filing jointly': 'marriedFields',
-          'married filing separately': 'MarriedFilingSeparatelyFields',
-          'head of house hold': 'HeadofhouseholdFields',
-          'qualifying widow(er)': 'QualifyingWidowerFields'
-        };
+    // When "Create Scenario" card is clicked, open modal
+    document.getElementById('createCard').addEventListener('click', () => {
+      filingStatusModal.show();
+    });
 
-        console.log("Selected status:", normalized);
+    // Handle filing status button clicks inside modal
+    document.querySelectorAll('#filingStatusModal button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const status = btn.textContent.trim();
+        showSection(status);
+        filingStatusModal.hide();
+      });
+    });
 
-        hideAllSections();
 
-        const sectionId = normalizedMap[normalized];
-        console.log("Mapped sectionId:", sectionId);
+    // Show/hide state income tax field based on non-resident checkbox
+    const nonResidentCheckbox = document.getElementById('is_nonresident');
+    const stateTaxWrapper = document.getElementById('stateIncomeTaxWrapper');
 
-        if (sectionId) {
-          const section = document.getElementById(sectionId);
-          if (section) section.classList.remove('hidden');
-        }
-
-        const formContainer = document.getElementById('custom-form');
-        if (formContainer) formContainer.classList.remove('hidden');
+    nonResidentCheckbox.addEventListener('change', function () {
+      if (this.checked) {
+        stateTaxWrapper.style.display = 'block';
+      } else {
+        stateTaxWrapper.style.display = 'none';
+        document.getElementById('state_income_tax_paid').value = 0; // reset if unchecked
       }
+    });
 
-      // When "Create Scenario" card is clicked, open modal
-      document.getElementById('createCard').addEventListener('click', () => {
-        filingStatusModal.show();
-      });
+  </script>
 
-      // Handle filing status button clicks inside modal
-      document.querySelectorAll('#filingStatusModal button').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const status = btn.textContent.trim();
-          showSection(status);
-          filingStatusModal.hide();
-        });
-      });
+  <script>
+    function getActiveFilingStatus() {
+      if (!document.getElementById('custom-form')) return 'single';
 
+      if (!document.getElementById('singleFields').classList.contains('hidden'))
+        return document.getElementById('filing_status').value;
+      if (!document.getElementById('marriedFields').classList.contains('hidden'))
+        return document.getElementById('filing_status_married').value;
+      if (!document.getElementById('HeadofhouseholdFields').classList.contains('hidden'))
+        return document.getElementById('filing_status_hoh').value;
+      if (!document.getElementById('QualifyingWidowerFields').classList.contains('hidden'))
+        return 'qualifyingWidower';
+      if (!document.getElementById('MarriedFilingSeparatelyFields').classList.contains('hidden'))
+        return document.getElementById('filing_status_mfs').value;
 
-       // Show/hide state income tax field based on non-resident checkbox
-      const nonResidentCheckbox = document.getElementById('is_nonresident');
-      const stateTaxWrapper = document.getElementById('stateIncomeTaxWrapper');
-
-      nonResidentCheckbox.addEventListener('change', function() {
-        if (this.checked) {
-          stateTaxWrapper.style.display = 'block';
-        } else {
-          stateTaxWrapper.style.display = 'none';
-          document.getElementById('state_income_tax_paid').value = 0; // reset if unchecked
-        }
-      });
-    
-    </script>
-
-    <script>
-      function getActiveFilingStatus() {
-        if (!document.getElementById('custom-form')) return 'single';
-
-        if (!document.getElementById('singleFields').classList.contains('hidden'))
-            return document.getElementById('filing_status').value;
-        if (!document.getElementById('marriedFields').classList.contains('hidden'))
-            return document.getElementById('filing_status_married').value;
-        if (!document.getElementById('HeadofhouseholdFields').classList.contains('hidden'))
-            return document.getElementById('filing_status_hoh').value;
-        if (!document.getElementById('QualifyingWidowerFields').classList.contains('hidden'))
-            return 'qualifyingWidower';
-        if (!document.getElementById('MarriedFilingSeparatelyFields').classList.contains('hidden'))
-            return document.getElementById('filing_status_mfs').value;
-
-        return 'single';
-      }
+      return 'single';
+    }
 
 
 
 
 
-     // Collect data and build payload
-      function getPayload() {
-          let filingStatus = getActiveFilingStatus();
+    // Collect data and build payload
+    function getPayload() {
+      let filingStatus = getActiveFilingStatus();
 
-          let payload = {
-              filing_status: filingStatus,
-              gross_income: 0,
-              annual_income: 0,
-              pay_frequency: 26,
-              current_federal_withholding: 0,
-              use_itemized_deductions: false,
-              is_nonresident: false,
-              additional_withholding: 0,
-              state_income_tax_paid: 0,
-              dependents: 0,
-              other_income: 0,
-              deductions: 0,
-              filing_jointly_both_work: false,
-              spouse_income: 0,
-              income_type: 'salary',
-              income_period: 'full_year',
-              job_incomes: []
-          };
+      let payload = {
+        filing_status: filingStatus,
+        gross_income: 0,
+        annual_income: 0,
+        pay_frequency: 26,
+        current_federal_withholding: 0,
+        use_itemized_deductions: false,
+        is_nonresident: false,
+        additional_withholding: 0,
+        state_income_tax_paid: 0,
+        dependents: 0,
+        other_income: 0,
+        deductions: 0,
+        filing_jointly_both_work: false,
+        spouse_income: 0,
+        income_type: 'salary',
+        income_period: 'full_year',
+        job_incomes: []
+      };
 
-          // Map inputs based on filing status
-          switch (filingStatus) {
-              case 'single':
-                  payload.annual_income = Number(document.getElementById('gross_income').value) || 0;
-                  payload.pay_frequency = Number(document.getElementById('pay_frequency').value) || 26;
-                  payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding').value) || 0;
-                  payload.additional_withholding = Number(document.getElementById('additional_withholding').value) || 0;
-                  payload.dependents = Number(document.getElementById('dependents').value) || 0;
-                  payload.other_income = Number(document.getElementById('other_income').value) || 0;
-                  payload.deductions = Number(document.getElementById('deductions').value) || 0;
-                  payload.use_itemized_deductions = document.getElementById('use_itemized_deductions').checked;
-                  payload.is_nonresident = document.getElementById('is_nonresident').checked;
-                  payload.state_income_tax_paid = payload.is_nonresident
-                      ? Number(document.getElementById('state_income_tax_paid').value) || 0
-                      : 0;
-                  payload.income_type = document.getElementById('income_type').value;
-                  payload.income_period = document.getElementById('income_period').value;
-                  payload.job_incomes = getJobIncomes('jobIncomesWrapperSingle');
-                  break;
+      // Map inputs based on filing status
+      switch (filingStatus) {
+        case 'single':
+          payload.annual_income = Number(document.getElementById('gross_income').value) || 0;
+          payload.pay_frequency = Number(document.getElementById('pay_frequency').value) || 26;
+          payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding').value) || 0;
+          payload.additional_withholding = Number(document.getElementById('additional_withholding').value) || 0;
+          payload.dependents = Number(document.getElementById('dependents').value) || 0;
+          payload.other_income = Number(document.getElementById('other_income').value) || 0;
+          payload.deductions = Number(document.getElementById('deductions').value) || 0;
+          payload.use_itemized_deductions = document.getElementById('use_itemized_deductions').checked;
+          payload.is_nonresident = document.getElementById('is_nonresident').checked;
+          payload.state_income_tax_paid = payload.is_nonresident
+            ? Number(document.getElementById('state_income_tax_paid').value) || 0
+            : 0;
+          payload.income_type = document.getElementById('income_type').value;
+          payload.income_period = document.getElementById('income_period').value;
+          payload.job_incomes = getJobIncomes('jobIncomesWrapperSingle');
+          break;
 
-              case 'marriedJointly':
-                  payload.filing_status = 'marriedJointly';
-                  payload.gross_income = Number(document.getElementById('gross_income_married').value) || 0;
-                  payload.annual_income = payload.gross_income;
-                  payload.spouse_income = Number(document.getElementById('spouse_income').value) || 0;
-                  payload.pay_frequency = Number(document.getElementById('pay_frequency_married').value) || 26; // 12=Monthly, 26=Bi-weekly, 52=Weekly
-                  payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding_married').value) || 0;
-                  payload.additional_withholding = Number(document.getElementById('additional_withholding_married').value) || 0;
-                  payload.dependents = Number(document.getElementById('dependents_married').value) || 0;
-                  payload.other_income = Number(document.getElementById('other_income_married').value) || 0;
-                  payload.deductions = Number(document.getElementById('deductions_married').value) || 0;
-                  payload.filing_jointly_both_work = document.getElementById('filing_jointly_both_work').checked;
-                  payload.income_type = document.getElementById('income_type_married').value;
-                  payload.income_period = document.getElementById('income_period_married').value;
-                  payload.use_itemized_deductions = document.getElementById('use_itemized_deductions_married').checked;
-                  payload.is_nonresident = document.getElementById('is_nonresident_married').checked;
-                  payload.state_income_tax_paid = Number(document.getElementById('state_income_tax_paid_married').value) || 0;
-                  payload.job_incomes = getJobIncomes('jobIncomesWrapperMarried');
-                  break;
+        case 'marriedJointly':
+          payload.filing_status = 'marriedJointly';
+          payload.gross_income = Number(document.getElementById('gross_income_married').value) || 0;
+          payload.annual_income = payload.gross_income;
+          payload.spouse_income = Number(document.getElementById('spouse_income').value) || 0;
+          payload.pay_frequency = Number(document.getElementById('pay_frequency_married').value) || 26; // 12=Monthly, 26=Bi-weekly, 52=Weekly
+          payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding_married').value) || 0;
+          payload.additional_withholding = Number(document.getElementById('additional_withholding_married').value) || 0;
+          payload.dependents = Number(document.getElementById('dependents_married').value) || 0;
+          payload.other_income = Number(document.getElementById('other_income_married').value) || 0;
+          payload.deductions = Number(document.getElementById('deductions_married').value) || 0;
+          payload.filing_jointly_both_work = document.getElementById('filing_jointly_both_work').checked;
+          payload.income_type = document.getElementById('income_type_married').value;
+          payload.income_period = document.getElementById('income_period_married').value;
+          payload.use_itemized_deductions = document.getElementById('use_itemized_deductions_married').checked;
+          payload.is_nonresident = document.getElementById('is_nonresident_married').checked;
+          payload.state_income_tax_paid = Number(document.getElementById('state_income_tax_paid_married').value) || 0;
+          payload.job_incomes = getJobIncomes('jobIncomesWrapperMarried');
+          break;
 
-              case 'headOfHousehold':
-                  payload.filing_status = 'headOfHousehold';
-                  payload.gross_income = Number(document.getElementById('gross_income_hoh').value) || 0;
-                  payload.annual_income = payload.gross_income;
-                  payload.pay_frequency = Number(document.getElementById('pay_frequency_hoh').value) || 26;
-                  payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding_hoh').value) || 0;
-                  payload.additional_withholding = Number(document.getElementById('additional_withholding_hoh').value) || 0;
-                  payload.dependents = Number(document.getElementById('dependents_hoh').value) || 0;
-                  payload.other_income = Number(document.getElementById('other_income_hoh').value) || 0;
-                  payload.deductions = Number(document.getElementById('deductions_hoh').value) || 0;
-                  payload.filing_jointly_both_work = document.getElementById('filing_jointly_both_work_hoh')?.checked || false;
-                  payload.spouse_income = Number(document.getElementById('spouse_income_hoh').value) || 0;
-                  payload.income_type = document.getElementById('income_type_hoh').value || 'salary';
-                  payload.income_period = document.getElementById('income_period_hoh').value || 'full_year';
-                  payload.is_nonresident = document.getElementById('is_nonresident_hoh')?.checked || false;
-                  payload.use_itemized_deductions = document.getElementById('use_itemized_deductions_hoh')?.checked || false;
-                  if (payload.is_nonresident) {
-                    payload.state_income_tax_paid = Number(document.getElementById('state_income_tax_paid_hoh').value) || 0;
-                  }
-                  payload.job_incomes = getJobIncomes('jobIncomesheadofhousehold');
-                  break;
-
-              case 'qualifyingWidower':
-                payload.filing_status = 'qualifyingWidower';
-                payload.gross_income = Number(document.getElementById('gross_income_qw').value) || 0;
-                payload.annual_income = payload.gross_income; // both same for consistency
-                payload.pay_frequency = Number(document.getElementById('pay_frequency_qw').value) || 26;
-                payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding_qw').value) || 0;
-                payload.additional_withholding = Number(document.getElementById('additional_withholding_qw').value) || 0;
-                payload.dependents = Number(document.getElementById('dependents_qw').value) || 0;
-                payload.other_income = Number(document.getElementById('other_income_qw').value) || 0;
-                payload.deductions = Number(document.getElementById('deductions_qw').value) || 0;
-                payload.filing_jointly_both_work = document.getElementById('filing_jointly_both_work_qw')?.checked || false;
-                payload.spouse_income = Number(document.getElementById('spouse_income_qw').value) || 0;
-                payload.income_type = document.getElementById('income_type_qw').value || 'salary';
-                payload.income_period = document.getElementById('income_period_qw').value || 'full_year';
-                payload.use_itemized_deductions = document.getElementById('use_itemized_deductions_qw').checked;
-                payload.is_nonresident = document.getElementById('is_nonresident_qw').checked;
-                payload.state_income_tax_paid = payload.is_nonresident
-                    ? Number(document.getElementById('state_income_tax_paid').value) || 0
-                    : 0;
-                payload.job_incomes = getJobIncomes('jobIncomesqualifyingwidower_qw');
-                break;
-
-              case 'marriedSeparately':
-                payload.filing_status = "marriedSeparately";
-                payload.gross_income = Number(document.getElementById('gross_income_mfs').value) || 0;
-                payload.annual_income = payload.gross_income; // same for consistency
-                payload.pay_frequency = Number(document.getElementById('pay_frequency_mfs').value) || 26;
-                payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding_mfs').value) || 0;
-                payload.additional_withholding = Number(document.getElementById('additional_withholding_mfs').value) || 0;
-                payload.dependents = Number(document.getElementById('dependents_mfs').value) || 0;
-                payload.other_income = Number(document.getElementById('other_income_mfs').value) || 0;
-                payload.deductions = Number(document.getElementById('deductions_mfs').value) || 15750; // default standard deduction for MFS
-                payload.use_itemized_deductions = document.getElementById('use_itemized_deductions_mfs').checked;
-                payload.is_nonresident = document.getElementById('is_nonresident_mfs').checked;
-                payload.state_income_tax_paid = Number(document.getElementById('state_income_tax_paid_mfs').value) || 0;
-                payload.filing_jointly_both_work = document.getElementById('filing_jointly_both_work_mfs').checked;
-                payload.spouse_income = Number(document.getElementById('spouse_income_mfs').value) || 0;
-                payload.income_type = document.getElementById('income_type_mfs').value;
-                payload.income_period = document.getElementById('income_period_mfs').value;
-                payload.job_incomes = getJobIncomes('jobIncomesmarriedsepperatly');
-                break;
+        case 'headOfHousehold':
+          payload.filing_status = 'headOfHousehold';
+          payload.gross_income = Number(document.getElementById('gross_income_hoh').value) || 0;
+          payload.annual_income = payload.gross_income;
+          payload.pay_frequency = Number(document.getElementById('pay_frequency_hoh').value) || 26;
+          payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding_hoh').value) || 0;
+          payload.additional_withholding = Number(document.getElementById('additional_withholding_hoh').value) || 0;
+          payload.dependents = Number(document.getElementById('dependents_hoh').value) || 0;
+          payload.other_income = Number(document.getElementById('other_income_hoh').value) || 0;
+          payload.deductions = Number(document.getElementById('deductions_hoh').value) || 0;
+          payload.filing_jointly_both_work = document.getElementById('filing_jointly_both_work_hoh')?.checked || false;
+          payload.spouse_income = Number(document.getElementById('spouse_income_hoh').value) || 0;
+          payload.income_type = document.getElementById('income_type_hoh').value || 'salary';
+          payload.income_period = document.getElementById('income_period_hoh').value || 'full_year';
+          payload.is_nonresident = document.getElementById('is_nonresident_hoh')?.checked || false;
+          payload.use_itemized_deductions = document.getElementById('use_itemized_deductions_hoh')?.checked || false;
+          if (payload.is_nonresident) {
+            payload.state_income_tax_paid = Number(document.getElementById('state_income_tax_paid_hoh').value) || 0;
           }
+          payload.job_incomes = getJobIncomes('jobIncomesheadofhousehold');
+          break;
 
-          return payload;
+        case 'qualifyingWidower':
+          payload.filing_status = 'qualifyingWidower';
+          payload.gross_income = Number(document.getElementById('gross_income_qw').value) || 0;
+          payload.annual_income = payload.gross_income; // both same for consistency
+          payload.pay_frequency = Number(document.getElementById('pay_frequency_qw').value) || 26;
+          payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding_qw').value) || 0;
+          payload.additional_withholding = Number(document.getElementById('additional_withholding_qw').value) || 0;
+          payload.dependents = Number(document.getElementById('dependents_qw').value) || 0;
+          payload.other_income = Number(document.getElementById('other_income_qw').value) || 0;
+          payload.deductions = Number(document.getElementById('deductions_qw').value) || 0;
+          payload.filing_jointly_both_work = document.getElementById('filing_jointly_both_work_qw')?.checked || false;
+          payload.spouse_income = Number(document.getElementById('spouse_income_qw').value) || 0;
+          payload.income_type = document.getElementById('income_type_qw').value || 'salary';
+          payload.income_period = document.getElementById('income_period_qw').value || 'full_year';
+          payload.use_itemized_deductions = document.getElementById('use_itemized_deductions_qw').checked;
+          payload.is_nonresident = document.getElementById('is_nonresident_qw').checked;
+          payload.state_income_tax_paid = payload.is_nonresident
+            ? Number(document.getElementById('state_income_tax_paid').value) || 0
+            : 0;
+          payload.job_incomes = getJobIncomes('jobIncomesqualifyingwidower_qw');
+          break;
+
+        case 'marriedSeparately':
+          payload.filing_status = "marriedSeparately";
+          payload.gross_income = Number(document.getElementById('gross_income_mfs').value) || 0;
+          payload.annual_income = payload.gross_income; // same for consistency
+          payload.pay_frequency = Number(document.getElementById('pay_frequency_mfs').value) || 26;
+          payload.current_federal_withholding = Number(document.getElementById('current_federal_withholding_mfs').value) || 0;
+          payload.additional_withholding = Number(document.getElementById('additional_withholding_mfs').value) || 0;
+          payload.dependents = Number(document.getElementById('dependents_mfs').value) || 0;
+          payload.other_income = Number(document.getElementById('other_income_mfs').value) || 0;
+          payload.deductions = Number(document.getElementById('deductions_mfs').value) || 15750; // default standard deduction for MFS
+          payload.use_itemized_deductions = document.getElementById('use_itemized_deductions_mfs').checked;
+          payload.is_nonresident = document.getElementById('is_nonresident_mfs').checked;
+          payload.state_income_tax_paid = Number(document.getElementById('state_income_tax_paid_mfs').value) || 0;
+          payload.filing_jointly_both_work = document.getElementById('filing_jointly_both_work_mfs').checked;
+          payload.spouse_income = Number(document.getElementById('spouse_income_mfs').value) || 0;
+          payload.income_type = document.getElementById('income_type_mfs').value;
+          payload.income_period = document.getElementById('income_period_mfs').value;
+          payload.job_incomes = getJobIncomes('jobIncomesmarriedsepperatly');
+          break;
       }
+
+
+      const estimatedAnnualWithholding = payload.current_federal_withholding * payload.pay_frequency;
+      if (estimatedAnnualWithholding > payload.annual_income && payload.annual_income > 0) {
+        alert("⚠️ Check your withholding amount — it seems too high compared to your annual income.");
+      }
+
+
+      return payload;
+    }
 
     // Helper function to collect job incomes
     function getJobIncomes(wrapperId) {
-        const wrapper = document.getElementById(wrapperId);
-        if (!wrapper) return [];
+      const wrapper = document.getElementById(wrapperId);
+      if (!wrapper) return [];
 
-        const jobs = [];
-        wrapper.querySelectorAll('.job-income').forEach(jobDiv => {
-            const incomeField = jobDiv.querySelector('input[data-field="income"]');
-            if (incomeField) {
-                const amount = Number(incomeField.value) || 0;
-                jobs.push(amount); // only push the income amount
-            }
-        });
+      const jobs = [];
+      wrapper.querySelectorAll('.job-income').forEach(jobDiv => {
+        const incomeField = jobDiv.querySelector('input[data-field="income"]');
+        if (incomeField) {
+          const amount = Number(incomeField.value) || 0;
+          jobs.push(amount); // only push the income amount
+        }
+      });
 
-        return jobs;
+      return jobs;
     }
 
 
@@ -1453,45 +1319,45 @@
     async function calculateTax() {
       const payload = getPayload();
       const endpoint = ['headOfHousehold', 'qualifyingWidower'].includes(payload.filing_status)
-                      ? '/tax/calculate/detailed'
-                      : '/tax/calculate';
+        ? '/tax/calculate/detailed'
+        : '/tax/calculate';
       console.log("Payload sent:", payload);
 
       try {
-          const response = await fetch(`https://api2.on10.io${endpoint}`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-              body: JSON.stringify(payload)
-          });
-          const data = await response.json();
-          console.log('Tax Calculation Result:', data);
+        const response = await fetch(`https://api2.on10.io${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json();
+        console.log('Tax Calculation Result:', data);
 
-          // Show result div
-          const resultDiv = document.getElementById('result');
-          resultDiv.classList.remove('hidden');
+        // Show result div
+        const resultDiv = document.getElementById('result');
+        resultDiv.classList.remove('hidden');
 
-          // Populate fields
-          document.getElementById('annual_tax_liability').textContent = `$${data.annual_tax_liability.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('current_annual_withholding').textContent = `$${data.current_annual_withholding.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('difference').textContent = `${data.difference >= 0 ? '+' : '-'}$${Math.abs(data.difference).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('recommended_per_period').textContent = `$${data.recommended_per_period.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('pay_period_label').textContent = `(${data.pay_period_label})`;
-          document.getElementById('adjustment').textContent = `$${data.adjustment.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('severity_level').textContent = data.severity_level.toUpperCase();
-          document.getElementById('taxable_income').textContent = `$${data.taxable_income.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('effective_tax_rate').textContent = `${data.effective_tax_rate.toFixed(2)}%`;
-          document.getElementById('marginal_tax_rate').textContent = `${data.marginal_tax_rate.toFixed(2)}%`;
-          document.getElementById('gross_income').textContent = `$${data.gross_income.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('total_deductions').textContent = `$${data.total_deductions.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('federal_tax_before_credits').textContent = `$${data.federal_tax_before_credits.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('child_tax_credit_applied').textContent = `$${data.child_tax_credit_applied.toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits:2})}`;
-          document.getElementById('recommendation').textContent = data.recommendation;
+        // Populate fields
+        document.getElementById('annual_tax_liability').textContent = `$${data.annual_tax_liability.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('current_annual_withholding').textContent = `$${data.current_annual_withholding.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('difference').textContent = `${data.difference >= 0 ? '+' : '-'}$${Math.abs(data.difference).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('recommended_per_period').textContent = `$${data.recommended_per_period.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('pay_period_label').textContent = `(${data.pay_period_label})`;
+        document.getElementById('adjustment').textContent = `$${data.adjustment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('severity_level').textContent = data.severity_level.toUpperCase();
+        document.getElementById('taxable_income').textContent = `$${data.taxable_income.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('effective_tax_rate').textContent = `${data.effective_tax_rate.toFixed(2)}%`;
+        document.getElementById('marginal_tax_rate').textContent = `${data.marginal_tax_rate.toFixed(2)}%`;
+        document.getElementById('gross_income').textContent = `$${data.gross_income.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('total_deductions').textContent = `$${data.total_deductions.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('federal_tax_before_credits').textContent = `$${data.federal_tax_before_credits.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('child_tax_credit_applied').textContent = `$${data.child_tax_credit_applied.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('recommendation').textContent = data.recommendation;
 
       } catch (err) {
-          console.error(err);
-          alert('Failed to calculate tax. See console for details.');
+        console.error(err);
+        alert('Failed to calculate tax. See console for details.');
       }
-  }
+    }
 
     // Bind button
     document.getElementById('calculateBtn').addEventListener('click', calculateTax);
@@ -1500,121 +1366,122 @@
 
 
     // Define scenario data
-const scenarios = {
-  jamesCard: { filing_status: 'single', annual_income: 30000, dependents: 0 },
-  jasonCard: { filing_status: 'headOfHousehold', gross_income: 52000, dependents: 2 },
-  amberCard: { filing_status: 'single', annual_income: 75000, dependents: 0 },
-  nickKavyaCard: { filing_status: 'marriedJointly', gross_income: 85000, dependents: 2 }
-};
+    const scenarios = {
+      jamesCard: { filing_status: 'single', annual_income: 30000, dependents: 0 },
+      jasonCard: { filing_status: 'headOfHousehold', gross_income: 52000, dependents: 2 },
+      amberCard: { filing_status: 'single', annual_income: 75000, dependents: 0 },
+      nickKavyaCard: { filing_status: 'marriedJointly', gross_income: 85000, dependents: 2 }
+    };
 
-// Calculate tax for a scenario and show in main #result section
-async function calculateTaxWithScenario(scenarioData) {
-  let payload = {
-    filing_status: scenarioData.filing_status,
-    pay_frequency: 26, // default bi-weekly
-    current_federal_withholding: 0,
-    additional_withholding: 0,
-    dependents: scenarioData.dependents || 0,
-    other_income: 0,
-    is_nonresident: false,
-    use_itemized_deductions: false,
-    filing_jointly_both_work: false,
-    spouse_income: scenarioData.spouse_income || 0,
-    income_type: 'salary',
-    income_period: 'full_year',
-    job_incomes: scenarioData.job_incomes || [],
-  };
+    // Calculate tax for a scenario and show in main #result section
+    async function calculateTaxWithScenario(scenarioData) {
+      let payload = {
+        filing_status: scenarioData.filing_status,
+        pay_frequency: 26, // default bi-weekly
+        current_federal_withholding: 0,
+        additional_withholding: 0,
+        dependents: scenarioData.dependents || 0,
+        other_income: 0,
+        is_nonresident: false,
+        use_itemized_deductions: false,
+        filing_jointly_both_work: false,
+        spouse_income: scenarioData.spouse_income || 0,
+        income_type: 'salary',
+        income_period: 'full_year',
+        job_incomes: scenarioData.job_incomes || [],
+      };
 
-  // ✅ Match correct income key per filing type
-  switch (scenarioData.filing_status) {
-    case 'single':
-      payload.annual_income = scenarioData.annual_income || 0;
-      payload.deductions = 15750; // Standard deduction for single
-      break;
+      // ✅ Match correct income key per filing type
+      switch (scenarioData.filing_status) {
+        case 'single':
+          payload.annual_income = scenarioData.annual_income || 0;
+          payload.deductions = 15750; // Standard deduction for single
+          break;
 
-    case 'headOfHousehold':
-      payload.gross_income = scenarioData.gross_income || 0;
-      payload.annual_income = payload.gross_income;
-      payload.deductions = 23625; // Standard deduction for HoH
-      break;
+        case 'headOfHousehold':
+          payload.gross_income = scenarioData.gross_income || 0;
+          payload.annual_income = payload.gross_income;
+          payload.deductions = 23625; // Standard deduction for HoH
+          break;
 
-    case 'marriedJointly':
-      payload.gross_income = scenarioData.gross_income || 0;
-      payload.annual_income = payload.gross_income;
-      payload.deductions = 31500; // Standard deduction for MFJ
-      break;
+        case 'marriedJointly':
+          payload.gross_income = scenarioData.gross_income || 0;
+          payload.annual_income = payload.gross_income;
+          payload.deductions = 31500; // Standard deduction for MFJ
+          break;
 
-    case 'marriedSeparately':
-      payload.gross_income = scenarioData.gross_income || 0;
-      payload.deductions = 15750; // Standard deduction for MFS
-      break;
+        case 'marriedSeparately':
+          payload.gross_income = scenarioData.gross_income || 0;
+          payload.deductions = 15750; // Standard deduction for MFS
+          break;
 
-    case 'qualifyingWidower':
-      payload.gross_income = scenarioData.gross_income || 0;
-      payload.deductions = 31500; // Same as MFJ
-      break;
+        case 'qualifyingWidower':
+          payload.gross_income = scenarioData.gross_income || 0;
+          payload.deductions = 31500; // Same as MFJ
+          break;
 
-    default:
-      payload.annual_income = scenarioData.annual_income || 0;
-      payload.deductions = 15750;
-  }
+        default:
+          payload.annual_income = scenarioData.annual_income || 0;
+          payload.deductions = 15750;
+      }
 
-  console.log('✅ Payload sent:', payload);
+      console.log('✅ Payload sent:', payload);
 
-  // ✅ Choose API endpoint dynamically
-  const endpoint = ['headOfHousehold', 'qualifyingWidower'].includes(payload.filing_status)
-    ? '/tax/calculate/detailed'
-    : '/tax/calculate';
+      // ✅ Choose API endpoint dynamically
+      const endpoint = ['headOfHousehold', 'qualifyingWidower'].includes(payload.filing_status)
+        ? '/tax/calculate/detailed'
+        : '/tax/calculate';
 
-  try {
-    const response = await fetch(`https://api2.on10.io${endpoint}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
+      try {
+        const response = await fetch(`https://api2.on10.io${endpoint}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+        console.log('📊 Tax Calculation Result:', data);
+
+        // Show result section
+        const resultSection = document.getElementById('result');
+        resultSection.classList.remove('hidden');
+
+        // Safely populate result fields
+        const safeNum = val => (typeof val === 'number' ? val : 0);
+
+        document.getElementById('annual_tax_liability').textContent = `$${safeNum(data.annual_tax_liability).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('current_annual_withholding').textContent = `$${safeNum(data.current_annual_withholding).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('difference').textContent = `${data.difference >= 0 ? '+' : '-'}$${Math.abs(safeNum(data.difference)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('recommended_per_period').textContent = `$${safeNum(data.recommended_per_period).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('pay_period_label').textContent = `(${data.pay_period_label || ''})`;
+        document.getElementById('adjustment').textContent = `$${safeNum(data.adjustment).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('severity_level').textContent = (data.severity_level || '').toUpperCase();
+        document.getElementById('taxable_income').textContent = `$${safeNum(data.taxable_income).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('effective_tax_rate').textContent = `${safeNum(data.effective_tax_rate).toFixed(2)}%`;
+        document.getElementById('marginal_tax_rate').textContent = `${safeNum(data.marginal_tax_rate).toFixed(2)}%`;
+        document.getElementById('gross_income').textContent = `$${safeNum(data.gross_income).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('total_deductions').textContent = `$${safeNum(data.total_deductions).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('federal_tax_before_credits').textContent = `$${safeNum(data.federal_tax_before_credits).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('child_tax_credit_applied').textContent = `$${safeNum(data.child_tax_credit_applied).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        document.getElementById('recommendation').textContent = data.recommendation || '';
+
+      } catch (err) {
+        console.error('❌ Error:', err);
+        alert('Failed to calculate tax. See console for details.');
+      }
+    }
+
+    // Add click listeners to cards
+    document.querySelectorAll('.profiles .card').forEach(card => {
+      card.addEventListener('click', () => {
+        if (card.id === 'createCard') return;
+        const scenarioData = scenarios[card.id];
+        if (!scenarioData) return;
+        calculateTaxWithScenario(scenarioData);
+      });
     });
 
-    const data = await response.json();
-    console.log('📊 Tax Calculation Result:', data);
+  </script>
+</body>
 
-    // Show result section
-    const resultSection = document.getElementById('result');
-    resultSection.classList.remove('hidden');
-
-    // Safely populate result fields
-    const safeNum = val => (typeof val === 'number' ? val : 0);
-
-    document.getElementById('annual_tax_liability').textContent = `$${safeNum(data.annual_tax_liability).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('current_annual_withholding').textContent = `$${safeNum(data.current_annual_withholding).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('difference').textContent = `${data.difference >= 0 ? '+' : '-'}$${Math.abs(safeNum(data.difference)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('recommended_per_period').textContent = `$${safeNum(data.recommended_per_period).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('pay_period_label').textContent = `(${data.pay_period_label || ''})`;
-    document.getElementById('adjustment').textContent = `$${safeNum(data.adjustment).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('severity_level').textContent = (data.severity_level || '').toUpperCase();
-    document.getElementById('taxable_income').textContent = `$${safeNum(data.taxable_income).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('effective_tax_rate').textContent = `${safeNum(data.effective_tax_rate).toFixed(2)}%`;
-    document.getElementById('marginal_tax_rate').textContent = `${safeNum(data.marginal_tax_rate).toFixed(2)}%`;
-    document.getElementById('gross_income').textContent = `$${safeNum(data.gross_income).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('total_deductions').textContent = `$${safeNum(data.total_deductions).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('federal_tax_before_credits').textContent = `$${safeNum(data.federal_tax_before_credits).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('child_tax_credit_applied').textContent = `$${safeNum(data.child_tax_credit_applied).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-    document.getElementById('recommendation').textContent = data.recommendation || '';
-
-  } catch (err) {
-    console.error('❌ Error:', err);
-    alert('Failed to calculate tax. See console for details.');
-  }
-}
-
-// Add click listeners to cards
-document.querySelectorAll('.profiles .card').forEach(card => {
-  card.addEventListener('click', () => {
-    if (card.id === 'createCard') return;
-    const scenarioData = scenarios[card.id];
-    if (!scenarioData) return;
-    calculateTaxWithScenario(scenarioData);
-  });
-});
-
-    </script>
-  </body>
-</html>
+</html>zzz
