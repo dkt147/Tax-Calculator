@@ -35,13 +35,13 @@ body {
 }
 
 .deduction-options button { padding: 10px; }
-.result {
+/* .result {
   margin-top: 20px;
-  background: #fff3cd;
+  background: #f9f9f9;
   border: 1px solid #ffeeba;
   padding: 15px;
   border-radius: 8px;;
-}
+} */
 /* Status Buttons Container */
 .status-options {
   display: flex;
@@ -168,7 +168,7 @@ input.form-control:focus {
 }
 
 /* ===== Result Section ===== */
-#result {
+/* #result {
   background: rgba(0, 0, 0, 0.7);
   color: white;
   padding: 20px;
@@ -235,12 +235,12 @@ input.form-control:focus {
 .d-flex i:hover {
   background: #f0f0f0;
   transform: scale(1.1);
-}
+} */
 
 .card {
-  cursor: pointer; /* Hover pe pointer banega */
+  cursor: pointer; 
   transition: transform 0.2s;
 }
 .card:hover {
-  transform: scale(1.05); /* halka zoom hover par */
+  transform: scale(1.05); 
 }
