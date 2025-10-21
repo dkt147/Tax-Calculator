@@ -1287,6 +1287,7 @@
           break;
       }
 
+      
 
       const estimatedAnnualWithholding = payload.current_federal_withholding * payload.pay_frequency;
       if (estimatedAnnualWithholding > payload.annual_income && payload.annual_income > 0) {
@@ -1331,6 +1332,7 @@
         });
         const data = await response.json();
         console.log('Tax Calculation Result:', data);
+        console.log('gross income Result:', data.gross_income);
 
         // Show result div
         const resultDiv = document.getElementById('result');
@@ -1341,7 +1343,7 @@
         document.getElementById('current_annual_withholding').textContent = `$${data.current_annual_withholding.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         document.getElementById('difference').textContent = `${data.difference >= 0 ? '+' : '-'}$${Math.abs(data.difference).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         document.getElementById('recommended_per_period').textContent = `$${data.recommended_per_period.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-        document.getElementById('pay_period_label').textContent = `(${data.pay_period_label})`;
+        document.getElementById('pay_period_label').textContent = `(${data.pay_frequency_label})`;
         document.getElementById('adjustment').textContent = `$${data.adjustment.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
         document.getElementById('severity_level').textContent = data.severity_level.toUpperCase();
         document.getElementById('taxable_income').textContent = `$${data.taxable_income.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
